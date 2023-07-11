@@ -1,95 +1,57 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client';
 
-export default function Home() {
+import { DatePicker } from 'antd';
+import type {} from 'antd/es/';
+import dayjs, { Dayjs } from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { useState } from 'react';
+
+dayjs.extend(customParseFormat);
+
+const BANNED_DATES = [
+  dayjs('2023-07-13'),
+  dayjs('2023-07-14'),
+  dayjs('2023-07-15'),
+  dayjs('2023-07-20'),
+  dayjs('2023-07-22'),
+  dayjs('2023-07-23'),
+];
+
+function disabledDate(current: Dayjs) {
+  return BANNED_DATES.some((date) => date.isSame(current, 'day'));
+}
+
+function isDateInRangeDisabled(start: Dayjs, end: Dayjs) {
+  const day = 24 * 60 * 60 * 1000;
+  for (let i = start.valueOf(); i <= end.valueOf(); i += day) {
+    if (BANNED_DATES.some((date) => date.isSame(dayjs(i), 'day'))) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export default function Page() {
+  const [dates, setDates] = useState<[Dayjs | null, Dayjs | null]>([null, null]);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    <DatePicker.RangePicker
+      value={dates}
+      disabledDate={disabledDate}
+      onCalendarChange={(dates) => {
+        if (
+          dates &&
+          dates.length === 2 &&
+          isDateInRangeDisabled(dayjs(dates[0]), dayjs(dates[1]))
+        ) {
+          alert('불가능한 날짜가 포함되어 있습니다.');
+          setDates([null, null]);
+          return;
+        }
+        if (dates) {
+          setDates(dates);
+        }
+      }}
+    />
+  );
 }
