@@ -6,3 +6,62 @@ datasource db {
   provider = "postgresql"
   url      = env("DB_URL")
 }
+
+enum UserRole {
+  PROFESSOR
+  STUDENT
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  name        String
+  phone       String
+  email       String        @unique
+  college     String
+  major       String
+  role        String
+  Reservation Reservation[]
+}
+
+model Server {
+  id                 Int                  @id @default(autoincrement())
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  name               String
+  description        String?
+  ServerAvailability ServerAvailability[]
+  Reservation        Reservation[]
+}
+
+model ServerAvailability {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  server    Server   @relation(fields: [serverId], references: [id])
+  serverId  Int
+  year      Int
+  month     Int
+}
+
+model Reservation {
+  id              Int               @id @default(autoincrement())
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  server          Server            @relation(fields: [serverId], references: [id])
+  serverId        Int
+  user            User              @relation(fields: [userId], references: [id])
+  userId          Int
+  dates           DateTime[]
+  ReservationDate ReservationDate[]
+}
+
+model ReservationDate {
+  id            Int         @id @default(autoincrement())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  reservation   Reservation @relation(fields: [reservationId], references: [id])
+  reservationId Int
+  date          DateTime
+}
