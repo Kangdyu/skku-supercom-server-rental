@@ -1,4 +1,4 @@
-import { AppShell, Navbar, NavLink, Text } from '@mantine/core';
+import { AppShell, Box, Navbar, NavLink, Text, Title } from '@mantine/core';
 import { IconHome, IconServer } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -18,10 +18,12 @@ const ROUTES = [
 ];
 
 interface AdminLayoutProps {
+  title?: string;
+  description?: string;
   children: ReactNode;
 }
 
-export function AdminLayout({ children }: AdminLayoutProps) {
+export function AdminLayout({ title, description, children }: AdminLayoutProps) {
   const { pathname } = useRouter();
 
   return (
@@ -55,7 +57,19 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         },
       })}
     >
-      {children}
+      {title && (
+        <Title order={1} fz={28}>
+          {title}
+        </Title>
+      )}
+      {description && (
+        <Text fz={16} color="gray" mt="xs">
+          {description}
+        </Text>
+      )}
+      <Box component="main" mt={24}>
+        {children}
+      </Box>
     </AppShell>
   );
 }
