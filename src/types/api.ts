@@ -10,3 +10,9 @@ export type ServerDTO = Omit<Server, CommonDBFields>;
 export interface ServerAvailabilityDTO {
   dates: string[];
 }
+
+export interface ReservationDTO {
+  serverId: number;
+  userId: number;
+  dates: Date[];
+}
