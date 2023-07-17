@@ -20,6 +20,9 @@ async function getUsers(req: NextApiRequest, res: NextApiResponse) {
     const users = await prisma.user.findMany({
       skip: pageSize * (pageNumber - 1),
       take: pageSize,
+      include: {
+        reservations: true,
+      },
     });
 
     return res.status(200).json({

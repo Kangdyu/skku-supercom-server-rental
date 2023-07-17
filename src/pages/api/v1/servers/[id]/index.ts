@@ -14,6 +14,10 @@ async function getServer(req: NextApiRequest, res: NextApiResponse) {
       where: {
         id: Number(id),
       },
+      include: {
+        serverAvailability: true,
+        reservations: true,
+      },
     });
 
     return res.status(200).json({ server });

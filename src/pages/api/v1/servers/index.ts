@@ -20,6 +20,10 @@ async function getServers(req: NextApiRequest, res: NextApiResponse) {
     const servers = await prisma.server.findMany({
       skip: pageSize * (pageNumber - 1),
       take: pageSize,
+      include: {
+        serverAvailability: true,
+        reservations: true,
+      },
     });
 
     return res.status(200).json({
