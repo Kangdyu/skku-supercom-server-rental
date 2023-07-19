@@ -2,6 +2,7 @@ import { AppShell, Box, Navbar, NavLink, Text, Title } from '@mantine/core';
 import { IconHome, IconServer } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { relative } from 'node:path/win32';
 import { ReactNode } from 'react';
 
 const ROUTES = [
@@ -28,7 +29,7 @@ export function AdminLayout({ title, description, children }: AdminLayoutProps) 
 
   return (
     <AppShell
-      padding="md"
+      padding="16px"
       navbar={
         <Navbar width={{ base: 300 }} height="100vh" p="xs">
           <Navbar.Section mt="xs">
@@ -63,13 +64,12 @@ export function AdminLayout({ title, description, children }: AdminLayoutProps) 
         </Title>
       )}
       {description && (
-        <Text fz={16} color="gray" mt="xs">
+        <Text fz={16} color="gray" mt="8px">
           {description}
         </Text>
       )}
-      <Box component="main" mt={24}>
-        {children}
-      </Box>
+
+      <Box mt="16px">{children}</Box>
     </AppShell>
   );
 }

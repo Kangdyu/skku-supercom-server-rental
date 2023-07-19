@@ -1,4 +1,4 @@
-import { Server, ServerAvailability, User } from '@prisma/client';
+import { Server, User } from '@prisma/client';
 
 type CommonDBFields = 'id' | 'createdAt' | 'updatedAt';
 

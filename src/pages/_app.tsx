@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import NextApp, { AppProps, AppContext } from 'next/app';
+import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
+import { MantineProvider, ColorScheme, Button } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
+import { SWRConfig } from 'swr';
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -9,10 +10,10 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   return (
     <>
       <Head>
-        <title>Mantine next example</title>
+        <title>성균관대학교 슈퍼컴퓨팅센터 서버대여서비스</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-        <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
+
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
@@ -20,7 +21,10 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
           primaryColor: 'green',
         }}
       >
-        <Component {...pageProps} />
+        <SWRConfig value={{ suspense: true }}>
+          <Notifications />
+          <Component {...pageProps} />
+        </SWRConfig>
       </MantineProvider>
     </>
   );
