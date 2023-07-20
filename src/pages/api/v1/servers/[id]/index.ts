@@ -50,11 +50,32 @@ async function putServer(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
+/**
+ * DELETE /api/v1/servers/:id
+ */
+async function deleteServer(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const { id } = req.query;
+
+    const server = await prisma.server.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    return res.status(200).json(server);
+  } catch (e) {
+    handleApiError(e, res);
+  }
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     await getServer(req, res);
   } else if (req.method === 'PUT') {
     await putServer(req, res);
+  } else if (req.method === 'DELETE') {
+    await deleteServer(req, res);
   } else {
     res.status(405).json({ message: 'Method not allowed' });
   }
