@@ -19,7 +19,7 @@ async function getServerAvailability(req: NextApiRequest, res: NextApiResponse) 
       },
     });
 
-    return res.status(200).json({ availability });
+    return res.status(200).json(availability);
   } catch (e) {
     handleApiError(e, res);
   }
@@ -44,7 +44,7 @@ async function postServerAvailability(req: NextApiRequest, res: NextApiResponse)
       }),
     });
 
-    return res.status(201).json({ availability, message: 'success' });
+    return res.status(201).json(availability);
   } catch (e) {
     handleApiError(e, res);
   }
@@ -71,7 +71,7 @@ async function putServerAvailability(req: NextApiRequest, res: NextApiResponse) 
       }),
     });
 
-    return res.status(200).json({ availability, message: 'success' });
+    return res.status(200).json(availability);
   } catch (e) {
     handleApiError(e, res);
   }

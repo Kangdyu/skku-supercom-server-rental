@@ -52,7 +52,7 @@ async function postServer(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    return res.status(201).json({ server, message: 'success' });
+    return res.status(201).json(server);
   } catch (e) {
     handleApiError(e, res);
   }

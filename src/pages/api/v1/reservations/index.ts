@@ -48,7 +48,7 @@ async function postReservation(req: NextApiRequest, res: NextApiResponse) {
       })),
     });
 
-    return res.status(201).json({ reservation, message: 'success' });
+    return res.status(201).json({ ...reservation });
   } catch (e) {
     handleApiError(e, res);
   }

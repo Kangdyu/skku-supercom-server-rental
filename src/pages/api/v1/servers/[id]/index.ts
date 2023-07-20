@@ -20,7 +20,7 @@ async function getServer(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    return res.status(200).json({ server });
+    return res.status(200).json(server);
   } catch (e) {
     handleApiError(e, res);
   }
@@ -44,7 +44,7 @@ async function putServer(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    return res.status(200).json({ server, message: 'success' });
+    return res.status(200).json(server);
   } catch (e) {
     handleApiError(e, res);
   }
