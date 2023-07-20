@@ -20,6 +20,10 @@ async function getServer(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
+    if (server == null) {
+      return res.status(404).json({ message: 'Server not found' });
+    }
+
     return res.status(200).json(server);
   } catch (e) {
     handleApiError(e, res);

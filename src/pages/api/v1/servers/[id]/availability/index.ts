@@ -19,6 +19,10 @@ async function getServerAvailability(req: NextApiRequest, res: NextApiResponse) 
       },
     });
 
+    if (availability == null) {
+      return res.status(404).json({ message: 'Server availability not found' });
+    }
+
     return res.status(200).json(availability);
   } catch (e) {
     handleApiError(e, res);
