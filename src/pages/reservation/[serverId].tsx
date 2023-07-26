@@ -17,12 +17,14 @@ export default function ServerReservationPage() {
     <Container size="sm" py="60px">
       <Title mb="36px">서버 예약</Title>
 
-      <Title order={3}>서버 정보</Title>
-      <AsyncBoundary errorFallback={ErrorFallback} loadingFallback={<Skeleton h="200px" visible />}>
+      <Title order={2} mb="12px">
+        서버 정보
+      </Title>
+      <AsyncBoundary errorFallback={ErrorFallback} loadingFallback={<Skeleton h="165px" visible />}>
         <ServerInfo serverId={serverId} />
       </AsyncBoundary>
 
-      <Title order={3} mt="24px">
+      <Title order={2} mt="24px" mb="12px">
         신청 정보
       </Title>
       <AsyncBoundary errorFallback={ErrorFallback} loadingFallback={<Skeleton h="200px" visible />}>

@@ -1,4 +1,4 @@
-import { Row } from '@/components/admin/Row';
+import { Row } from '@/components/common/Row';
 import { useServer } from '@/hooks/useServer';
 import { axiosClient } from '@/lib/fetcher';
 import { ServerResponse } from '@/types/api';
