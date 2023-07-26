@@ -1,9 +1,12 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import localFont from 'next/font/local';
 import { MantineProvider, ColorScheme, Button } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { SWRConfig } from 'swr';
 import 'dayjs/locale/ko';
+
+const pretendard = localFont({ src: './PretendardVariable.woff2' });
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -20,11 +23,14 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         withNormalizeCSS
         theme={{
           primaryColor: 'green',
+          fontFamily: 'inherit',
         }}
       >
         <SWRConfig value={{ suspense: true }}>
           <Notifications />
-          <Component {...pageProps} />
+          <main className={pretendard.className}>
+            <Component {...pageProps} />
+          </main>
         </SWRConfig>
       </MantineProvider>
     </>
