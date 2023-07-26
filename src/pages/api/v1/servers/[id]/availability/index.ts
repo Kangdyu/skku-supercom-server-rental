@@ -62,13 +62,17 @@ async function putServerAvailability(req: NextApiRequest, res: NextApiResponse) 
     const { id } = req.query;
     const { dates }: ServerAvailabilityDTO = req.body;
 
-    const availability = await prisma.serverAvailability.updateMany({
+    await prisma.serverAvailability.deleteMany({
       where: {
         serverId: Number(id),
       },
+    });
+
+    const availability = await prisma.serverAvailability.createMany({
       data: dates.map((date) => {
         const [year, month] = date.split('-');
         return {
+          serverId: Number(id),
           year: Number(year),
           month: Number(month),
         };

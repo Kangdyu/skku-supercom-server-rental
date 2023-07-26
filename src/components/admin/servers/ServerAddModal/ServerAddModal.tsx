@@ -3,11 +3,10 @@ import { Button, Group, Modal, ModalProps, Stack, Text, TextInput } from '@manti
 import { MonthPicker, MonthPickerInput } from '@mantine/dates';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import 'dayjs/locale/ko';
 import dayjs from 'dayjs';
 import { axiosClient } from '@/lib/fetcher';
 import { notifications } from '@mantine/notifications';
-import { IconCheck } from '@tabler/icons-react';
+import { IconCheck, IconX } from '@tabler/icons-react';
 
 type ServerAddInputs = ServerDTO;
 
@@ -48,6 +47,12 @@ export function ServerAddModal({ onClose, ...props }: ModalProps) {
       onCloseModal();
     } catch (e) {
       console.error(e);
+      notifications.show({
+        title: '서버 추가 실패',
+        message: '오류가 발생했습니다.',
+        color: 'red',
+        icon: <IconX />,
+      });
     }
   };
 

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { MantineProvider, ColorScheme, Button } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { SWRConfig } from 'swr';
+import 'dayjs/locale/ko';
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;

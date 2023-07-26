@@ -14,6 +14,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconFileDots } from '@tabler/icons-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export function ServerTable() {
@@ -60,7 +61,7 @@ export function ServerTable() {
               <td>
                 <Group>
                   <Tooltip label="상세 보기">
-                    <ActionIcon>
+                    <ActionIcon component={Link} href={`/admin/servers/${server.id}`}>
                       <IconFileDots />
                     </ActionIcon>
                   </Tooltip>
