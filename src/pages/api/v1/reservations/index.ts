@@ -48,12 +48,16 @@ async function getReservations(req: NextApiRequest, res: NextApiResponse) {
  */
 async function postReservation(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { serverId, userId, dates }: ReservationDTO = req.body;
+    const { serverId, user, dates }: ReservationDTO = req.body;
+
+    const newUser = await prisma.user.create({
+      data: user,
+    });
 
     const reservation = await prisma.reservation.create({
       data: {
         serverId,
-        userId,
+        userId: newUser.id,
       },
     });
 
