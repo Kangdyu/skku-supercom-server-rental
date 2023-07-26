@@ -8,8 +8,18 @@ import { NextApiRequest, NextApiResponse } from 'next';
  */
 async function getReservations(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { serverId, userId } = req.query;
+    const { pageSize: pageSizeQuery, pageNumber: pageNumberQuery, serverId, userId } = req.query;
+    if (!pageSizeQuery || !pageNumberQuery) {
+      return res.status(400).json({ message: 'pageSize and pageNumber are required' });
+    }
+
+    const pageSize = Number(pageSizeQuery);
+    const pageNumber = Number(pageNumberQuery);
+
+    const totalCount = await prisma.reservation.count();
     const reservations = await prisma.reservation.findMany({
+      skip: pageSize * (pageNumber - 1),
+      take: pageSize,
       where: {
         serverId: serverId ? Number(serverId) : undefined,
         userId: userId ? Number(userId) : undefined,
@@ -21,7 +31,13 @@ async function getReservations(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    return res.status(200).json({ reservations });
+    return res.status(200).json({
+      pageSize,
+      pageNumber,
+      totalCount,
+      totalPages: Math.ceil(totalCount / pageSize),
+      contents: reservations,
+    });
   } catch (e) {
     handleApiError(e, res);
   }
