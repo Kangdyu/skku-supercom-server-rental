@@ -23,12 +23,12 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         withNormalizeCSS
         theme={{
           primaryColor: 'green',
-          fontFamily: 'inherit',
+          fontFamily: pretendard.style.fontFamily,
         }}
       >
         <SWRConfig value={{ suspense: true }}>
           <Notifications />
-          <main className={pretendard.className}>
+          <main>
             <Component {...pageProps} />
           </main>
         </SWRConfig>

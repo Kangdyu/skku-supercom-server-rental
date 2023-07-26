@@ -13,6 +13,6 @@ export interface ServerAvailabilityDTO {
 
 export interface ReservationDTO {
   serverId: number;
-  userId: number;
+  user: UserDTO;
   dates: Date[];
 }
