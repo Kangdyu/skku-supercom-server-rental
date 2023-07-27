@@ -1,8 +1,8 @@
+import { ReservationCalendarInput } from '@/components/reservation/ServerReservationForm/ReservationCalendarInput';
 import { axiosClient } from '@/lib/fetcher';
 import { showFailNotification, showSuccessNotification } from '@/lib/notification';
 import { ReservationDTO } from '@/types/api';
 import { Button, Group, Stack, TextInput } from '@mantine/core';
-import { DatePickerInput } from '@mantine/dates';
 import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -14,6 +14,7 @@ interface ServerReservationFormProps {
 
 export function ServerReservationForm({ serverId }: ServerReservationFormProps) {
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -94,13 +95,10 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
             required: '예약 날짜를 선택해주세요.',
           }}
           render={({ field }) => (
-            <DatePickerInput
-              type="multiple"
-              label="예약 날짜"
+            <ReservationCalendarInput
+              serverId={serverId}
               {...field}
               error={formErrors.dates?.message}
-              withAsterisk
-              locale="ko"
             />
           )}
         />
