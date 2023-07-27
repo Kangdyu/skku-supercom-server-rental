@@ -24,6 +24,14 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         theme={{
           primaryColor: 'green',
           fontFamily: pretendard.style.fontFamily,
+          components: {
+            DatePickerInput: {
+              defaultProps: {
+                valueFormat: 'YYYY-MM-DD',
+                firstDayOfWeek: 0,
+              },
+            },
+          },
         }}
       >
         <SWRConfig value={{ suspense: true }}>

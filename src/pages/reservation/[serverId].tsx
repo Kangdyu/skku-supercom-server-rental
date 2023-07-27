@@ -2,7 +2,9 @@ import { AsyncBoundary } from '@/components/common/AsyncBoundary';
 import { ErrorFallback } from '@/components/common/ErrorFallback/ErrorFallback';
 import { ServerInfo } from '@/components/reservation/ServerInfo';
 import { ServerReservationForm } from '@/components/reservation/ServerReservationForm';
-import { Container, LoadingOverlay, Skeleton, Title } from '@mantine/core';
+import { ActionIcon, Container, LoadingOverlay, Skeleton, Title } from '@mantine/core';
+import { IconArrowLeft, IconArrowLeftCircle } from '@tabler/icons-react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function ServerReservationPage() {
@@ -15,6 +17,10 @@ export default function ServerReservationPage() {
 
   return (
     <Container size="sm" py="60px">
+      <ActionIcon component={Link} href="/" variant="light" radius="xl" size="lg" mb="24px">
+        <IconArrowLeft size="24px" />
+      </ActionIcon>
+
       <Title mb="36px">서버 예약</Title>
 
       <Title order={2} mb="12px">
