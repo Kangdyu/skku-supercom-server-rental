@@ -16,7 +16,11 @@ async function getServer(req: NextApiRequest, res: NextApiResponse) {
       },
       include: {
         serverAvailability: true,
-        reservations: true,
+        reservations: {
+          include: {
+            reservationDates: true,
+          },
+        },
       },
     });
 
