@@ -1,19 +1,6 @@
+import { ServerReservationRow } from '@/components/admin/servers/ServerReservationTable/ServerReservationRow';
 import { useReservations } from '@/hooks/useReservations';
-import { formatDate } from '@/lib/date';
-import {
-  ActionIcon,
-  Button,
-  Group,
-  Pagination,
-  Popover,
-  Stack,
-  Table,
-  Text,
-  Title,
-  Tooltip,
-} from '@mantine/core';
-import { IconFileDots } from '@tabler/icons-react';
-import Link from 'next/link';
+import { Group, Pagination, Table, Text } from '@mantine/core';
 import { useState } from 'react';
 
 interface ServerReservationtableProps {
@@ -47,37 +34,7 @@ export function ServerReservationtable({ serverId }: ServerReservationtableProps
         </thead>
         <tbody>
           {data.contents.map((reservation) => (
-            <tr key={reservation.id}>
-              <td>{reservation.server.name}</td>
-              <td>{reservation.user.name}</td>
-              <td>{reservation.user.email}</td>
-              <td>{reservation.user.phone}</td>
-              <td>{reservation.user.college}</td>
-              <td>{reservation.user.major}</td>
-              <td>{reservation.user.role}</td>
-              <td>
-                <Popover>
-                  <Popover.Target>
-                    <Button size="xs">날짜 보기</Button>
-                  </Popover.Target>
-                  <Popover.Dropdown>
-                    {reservation.reservationDates.map((data) => (
-                      <Text key={data.id}>{formatDate(data.date)}</Text>
-                    ))}
-                  </Popover.Dropdown>
-                </Popover>
-              </td>
-              <td>{formatDate(reservation.createdAt)}</td>
-              <td>
-                <Group>
-                  <Tooltip label="상세 보기">
-                    <ActionIcon component={Link} href="#">
-                      <IconFileDots />
-                    </ActionIcon>
-                  </Tooltip>
-                </Group>
-              </td>
-            </tr>
+            <ServerReservationRow key={reservation.id} reservation={reservation} />
           ))}
         </tbody>
         <tfoot>
