@@ -24,7 +24,6 @@ export function ReservationCalendarInput({ serverId, ...props }: ReservationCale
       }}
       getMonthControlProps={(date) => {
         const yearMonth = `${date.getFullYear()}-${date.getMonth() + 1}`;
-        console.log(availableDates, yearMonth);
 
         if (!availableDates.includes(yearMonth)) {
           return { disabled: true };
