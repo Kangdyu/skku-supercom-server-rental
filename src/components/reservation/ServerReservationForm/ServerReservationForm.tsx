@@ -18,7 +18,7 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
   const {
     register,
     handleSubmit,
-    formState: { errors: formErrors },
+    formState: { errors: formErrors, isSubmitting },
     control,
   } = useForm<FormInputs>();
 
@@ -103,7 +103,9 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
           )}
         />
 
-        <Button type="submit">예약</Button>
+        <Button type="submit" loading={isSubmitting}>
+          예약
+        </Button>
       </Stack>
     </form>
   );
