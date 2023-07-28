@@ -50,14 +50,18 @@ async function postReservation(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { serverId, user, dates }: ReservationDTO = req.body;
 
-    const newUser = await prisma.user.create({
-      data: user,
+    const userData = await prisma.user.upsert({
+      where: {
+        email: user.email,
+      },
+      create: user,
+      update: user,
     });
 
     const reservation = await prisma.reservation.create({
       data: {
         serverId,
-        userId: newUser.id,
+        userId: userData.id,
       },
     });
 
