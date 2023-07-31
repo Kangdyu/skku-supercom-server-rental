@@ -1,9 +1,10 @@
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { ServerInfoEditor } from '@/components/admin/servers/ServerInfoEditor';
+import { ServerReservationCalendars } from '@/components/admin/servers/ServerReservationCalendars';
 import { ServerReservationtable } from '@/components/admin/servers/ServerReservationTable';
 import { AsyncBoundary } from '@/components/common/AsyncBoundary';
 import { ErrorFallback } from '@/components/common/ErrorFallback/ErrorFallback';
-import { Skeleton, Tabs } from '@mantine/core';
+import { Skeleton, Stack, Tabs } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 export default function ServerDetailPage() {
@@ -36,7 +37,10 @@ export default function ServerDetailPage() {
               errorFallback={ErrorFallback}
               loadingFallback={<Skeleton height="500px" visible />}
             >
-              <ServerReservationtable serverId={serverId} />
+              <Stack>
+                <ServerReservationCalendars serverId={serverId} />
+                <ServerReservationtable serverId={serverId} />
+              </Stack>
             </AsyncBoundary>
           </Tabs.Panel>
         </Tabs>

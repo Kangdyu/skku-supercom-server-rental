@@ -5,6 +5,7 @@ import { MantineProvider, ColorScheme, Button } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { SWRConfig } from 'swr';
 import 'dayjs/locale/ko';
+import { DatesProvider } from '@mantine/dates';
 
 const pretendard = localFont({ src: './PretendardVariable.woff2' });
 
@@ -25,21 +26,27 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
           primaryColor: 'green',
           fontFamily: pretendard.style.fontFamily,
           components: {
+            MonthPickerInput: {
+              defaultProps: {
+                valueFormat: 'YYYY-MM',
+              },
+            },
             DatePickerInput: {
               defaultProps: {
                 valueFormat: 'YYYY-MM-DD',
-                firstDayOfWeek: 0,
               },
             },
           },
         }}
       >
-        <SWRConfig value={{ suspense: true }}>
-          <Notifications />
-          <main>
-            <Component {...pageProps} />
-          </main>
-        </SWRConfig>
+        <DatesProvider settings={{ locale: 'ko', firstDayOfWeek: 0 }}>
+          <SWRConfig value={{ suspense: true }}>
+            <Notifications />
+            <main>
+              <Component {...pageProps} />
+            </main>
+          </SWRConfig>
+        </DatesProvider>
       </MantineProvider>
     </>
   );

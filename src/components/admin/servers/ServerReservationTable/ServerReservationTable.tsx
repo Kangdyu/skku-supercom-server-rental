@@ -1,6 +1,6 @@
 import { ServerReservationRow } from '@/components/admin/servers/ServerReservationTable/ServerReservationRow';
 import { useReservations } from '@/hooks/useReservations';
-import { Group, Pagination, Table, Text } from '@mantine/core';
+import { Group, Pagination, Table, Text, Title } from '@mantine/core';
 import { useState } from 'react';
 
 interface ServerReservationtableProps {
@@ -17,6 +17,7 @@ export function ServerReservationtable({ serverId }: ServerReservationtableProps
 
   return (
     <>
+      <Title order={3}>테이블 보기</Title>
       <Table sx={{ backgroundColor: 'white', borderRadius: 8 }}>
         <thead>
           <tr>

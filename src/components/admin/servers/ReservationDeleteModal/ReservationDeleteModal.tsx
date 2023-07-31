@@ -20,7 +20,11 @@ export function ReservationDeleteModal({
     setIsLoading(true);
     try {
       await axiosClient.delete(`/reservations/${reservationId}`);
-      mutate((key) => typeof key === 'string' && key.startsWith('/reservations'));
+      mutate(
+        (key) =>
+          typeof key === 'string' &&
+          (key.startsWith('/reservations') || key.startsWith('/servers')),
+      );
       showSuccessNotification({
         title: '예약 삭제 완료',
         message: '예약이 삭제되었습니다.',
