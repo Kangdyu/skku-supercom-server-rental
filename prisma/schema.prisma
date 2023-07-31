@@ -25,6 +25,12 @@ model User {
   reservations Reservation[]
 }
 
+model Admin {
+  id       Int    @id @default(autoincrement())
+  loginId  String @unique
+  password String
+}
+
 model Server {
   id                 Int                  @id @default(autoincrement())
   createdAt          DateTime             @default(now())
