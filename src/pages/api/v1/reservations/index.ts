@@ -16,7 +16,12 @@ async function getReservations(req: NextApiRequest, res: NextApiResponse) {
     const pageSize = Number(pageSizeQuery);
     const pageNumber = Number(pageNumberQuery);
 
-    const totalCount = await prisma.reservation.count();
+    const totalCount = await prisma.reservation.count({
+      where: {
+        serverId: serverId ? Number(serverId) : undefined,
+        userId: userId ? Number(userId) : undefined,
+      },
+    });
     const reservations = await prisma.reservation.findMany({
       skip: pageSize * (pageNumber - 1),
       take: pageSize,
