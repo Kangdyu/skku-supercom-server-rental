@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { AdminDTO } from '@/types/api';
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
+import { withAdminAuth } from '@/lib/auth';
 
 /**
  * POST /api/v1/admin/register
@@ -38,7 +39,7 @@ async function postRegister(req: NextApiRequest, res: NextApiResponse) {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    await postRegister(req, res);
+    await withAdminAuth(postRegister)(req, res);
   } else {
     res.status(405).json({ message: 'Method not allowed' });
   }

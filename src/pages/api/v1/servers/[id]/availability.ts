@@ -1,3 +1,4 @@
+import { withAdminAuth } from '@/lib/auth';
 import { handleApiError } from '@/lib/errorHandlers';
 import prisma from '@/lib/prisma';
 import { ServerAvailabilityDTO } from '@/types/api';
@@ -89,9 +90,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     await getServerAvailability(req, res);
   } else if (req.method === 'POST') {
-    await postServerAvailability(req, res);
+    await withAdminAuth(postServerAvailability)(req, res);
   } else if (req.method === 'PUT') {
-    await putServerAvailability(req, res);
+    await withAdminAuth(putServerAvailability)(req, res);
   } else {
     res.status(405).json({ message: 'Method not allowed' });
   }

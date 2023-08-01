@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
 import { AdminDTO } from '@/types/api';
-import { sign } from '@/lib/jwt';
+import { sign } from '@/lib/auth';
 
 async function postLogin(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {

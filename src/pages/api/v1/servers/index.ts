@@ -1,3 +1,4 @@
+import { withAdminAuth } from '@/lib/auth';
 import { handleApiError } from '@/lib/errorHandlers';
 import prisma from '@/lib/prisma';
 import { ServerDTO } from '@/types/api';
@@ -62,7 +63,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     await getServers(req, res);
   } else if (req.method === 'POST') {
-    await postServer(req, res);
+    await withAdminAuth(postServer)(req, res);
   } else {
     res.status(405).json({ message: 'Method not allowed' });
   }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verify } from '@/lib/jwt';
+import { verify } from '@/lib/auth';
 
 export const config = {
   matcher: ['/admin', '/admin/((?!login).*)'],
