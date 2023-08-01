@@ -1,3 +1,4 @@
+import { ServerDeleteModal } from '@/components/admin/servers/ServerDeleteModal/ServerDeleteModal';
 import { Row } from '@/components/common/Row';
 import { useServer } from '@/hooks/useServer';
 import { getAuthHeaderObject } from '@/lib/auth';
@@ -5,6 +6,7 @@ import { axiosClient } from '@/lib/fetcher';
 import { ServerResponse } from '@/types/api';
 import { Box, Button, Group, Stack, Text, TextInput } from '@mantine/core';
 import { MonthPickerInput } from '@mantine/dates';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import dayjs from 'dayjs';
@@ -89,54 +91,69 @@ export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
     setEditing(false);
   };
 
+  const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] = useDisclosure();
+
   return (
-    <Box component="section" bg="white">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={0}>
-          <Row label="id">
-            <Text>{data.id}</Text>
-          </Row>
-          <Row label="서버명">
-            <TextInput
-              w="300px"
-              disabled={!editing}
-              error={formErrors.name?.message}
-              {...register('name', { required: '서버명을 입력해주세요.' })}
-            />
-          </Row>
-          <Row label="설명">
-            <TextInput
-              w="300px"
-              disabled={!editing}
-              error={formErrors.description?.message}
-              {...register('description')}
-            />
-          </Row>
-          <Row label="예약 가능 월">
-            <MonthPickerInput
-              type="multiple"
-              value={availableMonths}
-              onChange={setAvailableMonths}
-              minDate={new Date()}
-              disabled={!editing}
-              locale="ko"
-              w="300px"
-            />
-          </Row>
-          <Group p="16px" position="right">
-            {editing ? (
-              <>
-                <Button type="submit">저장</Button>
-                <Button onClick={onCancelEditing} color="red">
-                  취소
-                </Button>
-              </>
-            ) : (
-              <Button onClick={onStartEditing}>수정</Button>
-            )}
-          </Group>
-        </Stack>
-      </form>
-    </Box>
+    <>
+      <Box component="section" bg="white">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={0}>
+            <Row label="id">
+              <Text>{data.id}</Text>
+            </Row>
+            <Row label="서버명">
+              <TextInput
+                w="300px"
+                disabled={!editing}
+                error={formErrors.name?.message}
+                {...register('name', { required: '서버명을 입력해주세요.' })}
+              />
+            </Row>
+            <Row label="설명">
+              <TextInput
+                w="300px"
+                disabled={!editing}
+                error={formErrors.description?.message}
+                {...register('description')}
+              />
+            </Row>
+            <Row label="예약 가능 월">
+              <MonthPickerInput
+                type="multiple"
+                value={availableMonths}
+                onChange={setAvailableMonths}
+                minDate={new Date()}
+                disabled={!editing}
+                locale="ko"
+                w="300px"
+              />
+            </Row>
+            <Group p="16px" position="right">
+              {editing ? (
+                <>
+                  <Button type="submit">저장</Button>
+                  <Button onClick={onCancelEditing} color="red">
+                    취소
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button onClick={onStartEditing}>수정</Button>
+                  <Button onClick={openDeleteModal} color="red">
+                    삭제
+                  </Button>
+                </>
+              )}
+            </Group>
+          </Stack>
+        </form>
+      </Box>
+
+      <ServerDeleteModal
+        serverId={serverId}
+        opened={deleteModalOpened}
+        onClose={closeDeleteModal}
+      />
+    </>
   );
 }
