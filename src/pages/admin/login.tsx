@@ -28,6 +28,7 @@ export default function LoginPage() {
       } = await axiosClient.post<{ token: string; admin: AdminResponse }>('/admin/auth', data);
 
       setCookie('token', token, { path: '/' });
+      console.log(token);
       router.push('/admin');
     } catch (e) {
       let message = '오류가 발생했습니다.';
