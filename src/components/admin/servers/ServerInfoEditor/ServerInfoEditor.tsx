@@ -1,5 +1,6 @@
 import { Row } from '@/components/common/Row';
 import { useServer } from '@/hooks/useServer';
+import { getAuthHeaderObject } from '@/lib/auth';
 import { axiosClient } from '@/lib/fetcher';
 import { ServerResponse } from '@/types/api';
 import { Box, Button, Group, Stack, Text, TextInput } from '@mantine/core';
@@ -51,8 +52,8 @@ export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
 
     try {
       await Promise.all([
-        axiosClient.put<ServerResponse>(`/servers/${serverId}`, data),
-        axiosClient.put(`/servers/${serverId}/availability`, { dates }),
+        axiosClient.put<ServerResponse>(`/servers/${serverId}`, data, getAuthHeaderObject()),
+        axiosClient.put(`/servers/${serverId}/availability`, { dates }, getAuthHeaderObject()),
       ]);
 
       notifications.show({

@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { axiosClient } from '@/lib/fetcher';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
+import { getAuthHeaderObject } from '@/lib/auth';
 
 type ServerAddInputs = ServerDTO;
 
@@ -32,10 +33,14 @@ export function ServerAddModal({ onClose, ...props }: ModalProps) {
     try {
       const {
         data: { id: serverId },
-      } = await axiosClient.post<ServerResponse>('/servers', data);
+      } = await axiosClient.post<ServerResponse>('/servers', data, getAuthHeaderObject());
 
       if (dates.length !== 0) {
-        await axiosClient.post(`/servers/${serverId}/availability`, { dates });
+        await axiosClient.post(
+          `/servers/${serverId}/availability`,
+          { dates },
+          getAuthHeaderObject(),
+        );
       }
 
       notifications.show({

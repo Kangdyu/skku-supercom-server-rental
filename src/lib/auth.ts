@@ -2,6 +2,7 @@
 // jsonwebtoken 라이브러리의 경우 crypto 패키지로 인해 middleware에서 사용 불가하여 jose 사용
 
 import { TOKEN_EXPIRE_TIME } from '@/constants';
+import { getCookie } from '@/lib/cookie';
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -40,5 +41,13 @@ export function withAdminAuth(
     }
 
     await handler(req, res);
+  };
+}
+
+export function getAuthHeaderObject() {
+  return {
+    headers: {
+      Authorization: `Bearer ${getCookie('token')}`,
+    },
   };
 }

@@ -1,3 +1,4 @@
+import { getAuthHeaderObject } from '@/lib/auth';
 import { axiosClient } from '@/lib/fetcher';
 import { showFailNotification, showSuccessNotification } from '@/lib/notification';
 import { Button, Group, Modal, ModalProps, Stack } from '@mantine/core';
@@ -19,7 +20,7 @@ export function ReservationDeleteModal({
   const onDelete = async () => {
     setIsLoading(true);
     try {
-      await axiosClient.delete(`/reservations/${reservationId}`);
+      await axiosClient.delete(`/reservations/${reservationId}`, getAuthHeaderObject());
       mutate(
         (key) =>
           typeof key === 'string' &&
