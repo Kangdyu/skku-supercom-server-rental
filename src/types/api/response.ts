@@ -1,4 +1,13 @@
-import { Reservation, ReservationDate, Server, ServerAvailability, User } from '@prisma/client';
+import {
+  Admin,
+  Reservation,
+  ReservationDate,
+  Server,
+  ServerAvailability,
+  User,
+} from '@prisma/client';
+
+export type AdminResponse = Omit<Admin, 'password'>;
 
 export interface ServerResponse extends Server {
   serverAvailability: ServerAvailability[];
