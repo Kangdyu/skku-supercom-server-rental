@@ -31,7 +31,7 @@ export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
     handleSubmit,
     clearErrors,
     setValue,
-    formState: { errors: formErrors },
+    formState: { errors: formErrors, isSubmitting },
   } = useForm<ServerInfoInputs>({
     defaultValues: {
       name: data.name,
@@ -131,15 +131,19 @@ export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
             <Group p="16px" position="right">
               {editing ? (
                 <>
-                  <Button type="submit">저장</Button>
-                  <Button onClick={onCancelEditing} color="red">
+                  <Button key="save" type="submit" loading={isSubmitting}>
+                    저장
+                  </Button>
+                  <Button key="cancel" onClick={onCancelEditing} color="red">
                     취소
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button onClick={onStartEditing}>수정</Button>
-                  <Button onClick={openDeleteModal} color="red">
+                  <Button key="modify" onClick={onStartEditing}>
+                    수정
+                  </Button>
+                  <Button key="delete" onClick={openDeleteModal} color="red">
                     삭제
                   </Button>
                 </>
