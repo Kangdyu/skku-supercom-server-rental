@@ -18,13 +18,13 @@ async function postLogin(req: NextApiRequest, res: NextApiResponse) {
   });
 
   if (!admin) {
-    return res.status(404).json({ error: '회원 정보가 없습니다.' });
+    return res.status(401).json({ error: '아이디와 비밀번호를 다시 확인해주세요.' });
   }
 
   const isValid = await bcrypt.compare(password, admin.password);
 
   if (!isValid) {
-    return res.status(400).json({ error: '아이디와 비밀번호를 다시 확인해주세요.' });
+    return res.status(401).json({ error: '아이디와 비밀번호를 다시 확인해주세요.' });
   }
 
   const token = await sign({ id: admin.id, loginId: admin.loginId }, process.env.JWT_SECRET);
