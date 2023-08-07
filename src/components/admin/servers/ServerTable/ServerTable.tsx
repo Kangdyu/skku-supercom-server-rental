@@ -3,6 +3,7 @@ import { useServers } from '@/hooks/useServers';
 import { formatDate } from '@/lib/date';
 import {
   ActionIcon,
+  Badge,
   Button,
   Group,
   Pagination,
@@ -31,6 +32,8 @@ export function ServerTable() {
     );
   }
 
+  console.log(data);
+
   return (
     <>
       <ServerAddModal
@@ -46,6 +49,8 @@ export function ServerTable() {
           <tr>
             <th>id</th>
             <th>서버명</th>
+            <th>공개 여부</th>
+            <th>예약 가능 여부</th>
             <th>생성일자</th>
             <th>수정일자</th>
             <th>설정</th>
@@ -56,6 +61,20 @@ export function ServerTable() {
             <tr key={server.id}>
               <td>{server.id}</td>
               <td>{server.name}</td>
+              <td>
+                {server.isPublic ? (
+                  <Badge color="green">공개</Badge>
+                ) : (
+                  <Badge color="red">비공개</Badge>
+                )}
+              </td>
+              <td>
+                {server.isAvailable ? (
+                  <Badge color="green">예약 가능</Badge>
+                ) : (
+                  <Badge color="red">예약 불가</Badge>
+                )}
+              </td>
               <td>{formatDate(server.createdAt)}</td>
               <td>{formatDate(server.updatedAt)}</td>
               <td>
@@ -72,7 +91,7 @@ export function ServerTable() {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={5}>
+            <td colSpan={7}>
               <Group position="apart" p="12px">
                 <Pagination value={page} onChange={setPage} total={data.totalPages} />
                 <Button onClick={open}>서버 추가</Button>
