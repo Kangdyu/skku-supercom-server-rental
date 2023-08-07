@@ -29,7 +29,7 @@ export function AdminLayout({ title, description, children }: AdminLayoutProps) 
 
   return (
     <AppShell
-      padding="16px"
+      padding="32px"
       navbar={
         <Navbar width={{ base: 300 }} height="100vh" p="xs">
           <Navbar.Section mt="xs">
