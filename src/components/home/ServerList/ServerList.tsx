@@ -7,9 +7,11 @@ export function ServerList() {
 
   return (
     <SimpleGrid cols={2} spacing="16px">
-      {data.contents.map((server) => (
-        <ServerCard key={server.id} server={server} />
-      ))}
+      {data.contents
+        .filter((server) => server.isPublic)
+        .map((server) => (
+          <ServerCard key={server.id} server={server} />
+        ))}
     </SimpleGrid>
   );
 }

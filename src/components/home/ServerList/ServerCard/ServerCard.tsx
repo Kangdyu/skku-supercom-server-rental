@@ -20,7 +20,7 @@ interface ServerCardProps extends Omit<CardProps, 'children'> {
 }
 
 export function ServerCard({ server }: ServerCardProps) {
-  const isAvailable = server.serverAvailability.length !== 0;
+  const isAvailable = server.isAvailable && server.serverAvailability.length !== 0;
 
   return (
     <Paper withBorder shadow="sm" radius="md">
