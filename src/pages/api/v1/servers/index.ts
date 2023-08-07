@@ -44,12 +44,14 @@ async function getServers(req: NextApiRequest, res: NextApiResponse) {
  */
 async function postServer(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { name, description }: ServerDTO = req.body;
+    const { name, description, isPublic, isAvailable }: ServerDTO = req.body;
 
     const server = await prisma.server.create({
       data: {
         name,
         description,
+        isPublic,
+        isAvailable,
       },
     });
 

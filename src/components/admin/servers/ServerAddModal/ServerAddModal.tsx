@@ -1,5 +1,5 @@
 import { ServerDTO, ServerResponse } from '@/types/api';
-import { Button, Group, Modal, ModalProps, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Checkbox, Group, Modal, ModalProps, Stack, Text, TextInput } from '@mantine/core';
 import { MonthPicker, MonthPickerInput } from '@mantine/dates';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -94,6 +94,16 @@ export function ServerAddModal({ onClose, ...props }: ModalProps) {
               locale="ko"
             />
           </Group>
+          <Checkbox
+            label="유저에게 공개?"
+            description="체크 시 유저들에게 해당 서버가 보여집니다."
+            {...register('isPublic')}
+          />
+          <Checkbox
+            label="예약 가능?"
+            description="체크 시 유저들이 서버를 예약할 수 있게 됩니다."
+            {...register('isAvailable')}
+          />
           <Button type="submit" loading={isSubmitting}>
             추가
           </Button>

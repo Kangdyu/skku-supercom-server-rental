@@ -39,8 +39,8 @@ model Server {
   updatedAt          DateTime             @updatedAt
   name               String
   description        String?
-  isPublic           Boolean              @default(false)
-  isAvailable        Boolean              @default(true)
+  isPublic           Boolean
+  isAvailable        Boolean
   serverAvailability ServerAvailability[]
   reservations       Reservation[]
 }
