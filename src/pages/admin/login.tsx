@@ -1,3 +1,4 @@
+import { TOKEN_EXPIRE_TIME } from '@/constants';
 import { setCookie } from '@/lib/cookie';
 import { axiosClient } from '@/lib/fetcher';
 import { showFailNotification } from '@/lib/notification';
@@ -27,8 +28,7 @@ export default function LoginPage() {
         data: { token },
       } = await axiosClient.post<{ token: string; admin: AdminResponse }>('/admin/auth', data);
 
-      setCookie('token', token, { path: '/' });
-      console.log(token);
+      setCookie('token', token, { path: '/', maxAge: TOKEN_EXPIRE_TIME });
       router.push('/admin');
     } catch (e) {
       let message = '오류가 발생했습니다.';
