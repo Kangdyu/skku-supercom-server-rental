@@ -41,7 +41,7 @@ async function getServer(req: NextApiRequest, res: NextApiResponse) {
 async function putServer(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id } = req.query;
-    const { name, description }: Partial<ServerDTO> = req.body;
+    const { name, description, isPublic, isAvailable }: Partial<ServerDTO> = req.body;
 
     const server = await prisma.server.update({
       where: {
@@ -50,6 +50,8 @@ async function putServer(req: NextApiRequest, res: NextApiResponse) {
       data: {
         name,
         description,
+        isPublic,
+        isAvailable,
       },
     });
 

@@ -1,10 +1,10 @@
-import { ServerDeleteModal } from '@/components/admin/servers/ServerDeleteModal/ServerDeleteModal';
+import { ServerDeleteModal } from '@/components/admin/servers/ServerInfoEditor/ServerDeleteModal';
 import { Row } from '@/components/common/Row';
 import { useServer } from '@/hooks/useServer';
 import { getAuthHeaderObject } from '@/lib/auth';
 import { axiosClient } from '@/lib/fetcher';
 import { ServerResponse } from '@/types/api';
-import { Box, Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Badge, Box, Button, Group, Stack, Text, TextInput } from '@mantine/core';
 import { MonthPickerInput } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -23,7 +23,7 @@ interface ServerInfoEditorProps {
 }
 
 export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
-  const { data, mutate } = useServer(serverId);
+  const { data: server, mutate } = useServer(serverId);
   const [editing, setEditing] = useState(false);
 
   const {
@@ -34,27 +34,35 @@ export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
     formState: { errors: formErrors, isSubmitting },
   } = useForm<ServerInfoInputs>({
     defaultValues: {
-      name: data.name,
-      description: data.description ?? undefined,
+      name: server.name,
+      description: server.description ?? undefined,
     },
   });
+
   const [availableMonths, setAvailableMonths] = useState<Date[]>([]);
   const [availableMonthsBeforeEditing, setAvailableMonthsBeforeEditing] = useState<Date[]>([]);
-  useEffect(() => {
-    if (data == null) return;
+  const [publicInEdit, setPublicInEdit] = useState(server.isPublic ?? true);
+  const [availableInEdit, setAvailableInEdit] = useState(server.isAvailable ?? true);
 
-    const availableDates = data.serverAvailability.map((availability) =>
+  useEffect(() => {
+    if (server == null) return;
+
+    const availableDates = server.serverAvailability.map((availability) =>
       dayjs(`${availability.year}-${availability.month}`).toDate(),
     );
     setAvailableMonths(availableDates);
-  }, [data]);
+  }, [server]);
 
   const onSubmit: SubmitHandler<ServerInfoInputs> = async (data) => {
     const dates = availableMonths.map((date) => `${dayjs(date).year()}-${dayjs(date).month() + 1}`);
 
     try {
       await Promise.all([
-        axiosClient.put<ServerResponse>(`/servers/${serverId}`, data, getAuthHeaderObject()),
+        axiosClient.put<ServerResponse>(
+          `/servers/${serverId}`,
+          { ...data, isPublic: publicInEdit, isAvailable: availableInEdit },
+          getAuthHeaderObject(),
+        ),
         axiosClient.put(`/servers/${serverId}/availability`, { dates }, getAuthHeaderObject()),
       ]);
 
@@ -84,9 +92,11 @@ export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
   };
 
   const onCancelEditing = () => {
-    setValue('name', data.name);
-    setValue('description', data.description ?? '');
+    setValue('name', server.name);
+    setValue('description', server.description ?? '');
     setAvailableMonths(availableMonthsBeforeEditing);
+    setPublicInEdit(server.isPublic);
+    setAvailableInEdit(server.isAvailable);
     clearErrors();
     setEditing(false);
   };
@@ -99,7 +109,7 @@ export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={0}>
             <Row label="id">
-              <Text>{data.id}</Text>
+              <Text>{server.id}</Text>
             </Row>
             <Row label="서버명">
               <TextInput
@@ -128,6 +138,43 @@ export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
                 w="300px"
               />
             </Row>
+            <Row label="공개 여부">
+              <Group spacing={32} h="100%">
+                {!editing &&
+                  (server.isPublic ? (
+                    <Badge color="green">공개</Badge>
+                  ) : (
+                    <Badge color="red">비공개</Badge>
+                  ))}
+                {editing && (
+                  <Button
+                    onClick={() => setPublicInEdit((p) => !p)}
+                    color={publicInEdit ? 'red' : 'green'}
+                  >
+                    {publicInEdit ? '비공개로 전환' : '공개로 전환'}
+                  </Button>
+                )}
+              </Group>
+            </Row>
+            <Row label="예약 가능 여부">
+              <Group spacing={32} h="100%">
+                {!editing &&
+                  (server.isAvailable ? (
+                    <Badge color="green">예약 가능</Badge>
+                  ) : (
+                    <Badge color="red">예약 불가</Badge>
+                  ))}
+                {editing && (
+                  <Button
+                    onClick={() => setAvailableInEdit((p) => !p)}
+                    color={availableInEdit ? 'red' : 'green'}
+                  >
+                    {availableInEdit ? '예약 불가로 전환' : '예약 가능으로 전환'}
+                  </Button>
+                )}
+              </Group>
+            </Row>
+
             <Group p="16px" position="right">
               {editing ? (
                 <>
