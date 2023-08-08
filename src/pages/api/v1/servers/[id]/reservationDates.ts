@@ -7,7 +7,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
  */
 async function getReservationDates(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { id } = req.query;
+    const { id, year, month } = req.query;
 
     const reservations = await prisma.reservation.findMany({
       where: {
@@ -17,6 +17,12 @@ async function getReservationDates(req: NextApiRequest, res: NextApiResponse) {
         reservationDates: {
           select: {
             date: true,
+          },
+          where: {
+            date: {
+              lt: year && month && new Date(Number(year), Number(month), 1),
+              gte: year && month && new Date(Number(year), Number(month) - 1, 1),
+            },
           },
         },
       },
