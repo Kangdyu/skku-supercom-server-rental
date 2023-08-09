@@ -2,19 +2,24 @@ import { useReservationDates } from '@/hooks/useReservationDates';
 import { useServer } from '@/hooks/useServer';
 import { DatePickerInput, DatePickerInputProps } from '@mantine/dates';
 import dayjs from 'dayjs';
+import { ForwardedRef, forwardRef, useState } from 'react';
 
 interface ReservationCalendarProps extends Omit<DatePickerInputProps, 'value'> {
   serverId: number;
   value: Date[];
 }
 
-export function ReservationCalendarInput({ serverId, ...props }: ReservationCalendarProps) {
+function ReservationCalendarInputBase(
+  { serverId, ...props }: ReservationCalendarProps,
+  ref: ForwardedRef<HTMLButtonElement>,
+) {
   const { data: takenDates } = useReservationDates(serverId);
   const { data: server } = useServer(serverId);
   const availableDates = server?.serverAvailability.map((a) => `${a.year}-${a.month}`);
 
   return (
     <DatePickerInput
+      ref={ref}
       type="multiple"
       label="예약 날짜"
       defaultLevel="year"
@@ -33,8 +38,9 @@ export function ReservationCalendarInput({ serverId, ...props }: ReservationCale
       }}
       hideOutsideDates
       withAsterisk
-      locale="ko"
       {...props}
     />
   );
 }
+
+export const ReservationCalendarInput = forwardRef(ReservationCalendarInputBase);
