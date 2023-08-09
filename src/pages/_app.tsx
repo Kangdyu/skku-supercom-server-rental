@@ -26,6 +26,11 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
           primaryColor: 'green',
           fontFamily: pretendard.style.fontFamily,
           components: {
+            Calendar: {
+              defaultProps: {
+                monthLabelFormat: 'YYYY년 MM월',
+              },
+            },
             MonthPickerInput: {
               defaultProps: {
                 valueFormat: 'YYYY-MM',
@@ -34,6 +39,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
             DatePickerInput: {
               defaultProps: {
                 valueFormat: 'YYYY-MM-DD',
+                monthLabelFormat: 'YYYY년 MM월',
               },
             },
           },
