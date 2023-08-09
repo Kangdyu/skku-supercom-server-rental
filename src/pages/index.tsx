@@ -5,11 +5,11 @@ import { Container, Title } from '@mantine/core';
 
 export default function HomePage() {
   return (
-    <AsyncBoundary errorFallback={ErrorFallback} loadingFallback={<div>loading...</div>}>
-      <Container size={1540} py="32px">
-        <Title mb="32px">성균관대학교 슈퍼컴퓨팅센터 서버대여</Title>
+    <Container size={1540} py="32px">
+      <Title mb="32px">성균관대학교 슈퍼컴퓨팅센터 서버대여</Title>
+      <AsyncBoundary errorFallback={ErrorFallback} loadingFallback={<div>loading...</div>}>
         <ServerList />
-      </Container>
-    </AsyncBoundary>
+      </AsyncBoundary>
+    </Container>
   );
 }
