@@ -1,3 +1,6 @@
+import { AsyncBoundary } from '@/components/common/AsyncBoundary';
+import { ErrorFallback } from '@/components/common/ErrorFallback/ErrorFallback';
+import { ServerReservationCalendar } from '@/components/common/ServerReservationCalendar';
 import { useServers } from '@/hooks/useServers';
 import { useServerTime } from '@/hooks/useServerTime';
 import {
@@ -5,7 +8,9 @@ import {
   ColorSwatch,
   Grid,
   Group,
+  Loader,
   Paper,
+  Popover,
   Stack,
   Text,
   Title,
@@ -125,17 +130,33 @@ export function ServerList() {
 
               return (
                 <Grid.Col span={1} key={index}>
-                  <Paper
-                    component="button"
-                    p="24px"
-                    withBorder
-                    w="100%"
-                    h="100%"
-                    sx={(theme) => ({
-                      cursor: isAvailableMonth ? 'pointer' : 'default',
-                      background: isAvailableMonth ? theme.colors.green[3] : theme.colors.gray[0],
-                    })}
-                  />
+                  <Popover withArrow>
+                    <Popover.Target>
+                      <Paper
+                        component="button"
+                        p="24px"
+                        withBorder
+                        w="100%"
+                        h="100%"
+                        sx={(theme) => ({
+                          pointerEvents: !isAvailableMonth ? 'none' : 'auto',
+                          cursor: 'pointer',
+                          background: isAvailableMonth
+                            ? theme.colors.green[3]
+                            : theme.colors.gray[0],
+                        })}
+                      />
+                    </Popover.Target>
+                    <Popover.Dropdown>
+                      <AsyncBoundary errorFallback={ErrorFallback} loadingFallback={<Loader />}>
+                        <ServerReservationCalendar
+                          serverId={server.id}
+                          year={currentYear}
+                          month={month}
+                        />
+                      </AsyncBoundary>
+                    </Popover.Dropdown>
+                  </Popover>
                 </Grid.Col>
               );
             })}
