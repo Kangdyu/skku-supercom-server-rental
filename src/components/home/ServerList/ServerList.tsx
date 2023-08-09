@@ -21,6 +21,7 @@ import { IconHelpCircle } from '@tabler/icons-react';
 import Link from 'next/link';
 
 const COLUMNS = 14;
+const START_MONTH = 3;
 const monthsInSchoolYear = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2];
 
 export function ServerList() {
@@ -59,11 +60,9 @@ export function ServerList() {
 
       <Grid columns={COLUMNS} align="flex-end">
         <Grid.Col span={2}></Grid.Col>
-        {Array.from({ length: 12 }).map((_, index) => {
-          const month = monthsInSchoolYear[index];
-
+        {monthsInSchoolYear.map((month) => {
           return (
-            <Grid.Col span={1} key={index}>
+            <Grid.Col span={1} key={month}>
               <Stack align="center" spacing={0}>
                 {month === 3 && (
                   <Text color="gray" fz="14px">
@@ -81,6 +80,7 @@ export function ServerList() {
           );
         })}
       </Grid>
+
       {servers.contents.map((server) => {
         const availableDates = server.serverAvailability.map((a) => `${a.year}-${a.month}`);
 
@@ -120,16 +120,17 @@ export function ServerList() {
                 </Stack>
               </Paper>
             </Grid.Col>
-            {Array.from({ length: 12 }).map((_, index) => {
-              const month = monthsInSchoolYear[index];
-              const isPreviousMonth = index < currentMonth - 1;
+
+            {monthsInSchoolYear.map((month) => {
+              const year = month < START_MONTH ? currentYear + 1 : currentYear;
+              const isPreviousMonth = month < currentMonth && year === currentYear;
               const isAvailableMonth =
-                availableDates.includes(`${currentYear}-${month}`) &&
+                availableDates.includes(`${year}-${month}`) &&
                 server.isAvailable &&
                 !isPreviousMonth;
 
               return (
-                <Grid.Col span={1} key={index}>
+                <Grid.Col span={1} key={month}>
                   <Popover withArrow>
                     <Popover.Target>
                       <Paper
@@ -149,11 +150,7 @@ export function ServerList() {
                     </Popover.Target>
                     <Popover.Dropdown>
                       <AsyncBoundary errorFallback={ErrorFallback} loadingFallback={<Loader />}>
-                        <ServerReservationCalendar
-                          serverId={server.id}
-                          year={currentYear}
-                          month={month}
-                        />
+                        <ServerReservationCalendar serverId={server.id} year={year} month={month} />
                       </AsyncBoundary>
                     </Popover.Dropdown>
                   </Popover>
