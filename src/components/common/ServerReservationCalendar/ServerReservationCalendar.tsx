@@ -27,8 +27,11 @@ export function ServerReservationCalendar({
         };
       }}
       hideOutsideDates
-      nextIcon={<></>}
-      previousIcon={<></>}
+      styles={{
+        calendarHeaderControl: {
+          display: 'none',
+        },
+      }}
     />
   );
 }
