@@ -1,8 +1,7 @@
 import { AppShell, Box, Navbar, NavLink, Text, Title } from '@mantine/core';
-import { IconHome, IconServer } from '@tabler/icons-react';
+import { IconHome, IconKey, IconServer } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { relative } from 'node:path/win32';
 import { ReactNode } from 'react';
 
 const ROUTES = [
@@ -15,6 +14,11 @@ const ROUTES = [
     label: '서버 관리',
     href: '/admin/servers',
     icon: <IconServer size="1rem" />,
+  },
+  {
+    label: '비밀번호 변경',
+    href: '/admin/account',
+    icon: <IconKey size="1rem" />,
   },
 ];
 
