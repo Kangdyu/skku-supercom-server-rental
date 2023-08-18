@@ -2,7 +2,8 @@ import { ReservationCalendarInput } from '@/components/reservation/ServerReserva
 import { axiosClient } from '@/lib/fetcher';
 import { showFailNotification, showSuccessNotification } from '@/lib/notification';
 import { ReservationDTO } from '@/types/api';
-import { Button, Group, Stack, TextInput } from '@mantine/core';
+import { Anchor, Button, FileInput, Stack } from '@mantine/core';
+import { IconUpload } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -16,7 +17,6 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
   const router = useRouter();
 
   const {
-    register,
     handleSubmit,
     formState: { errors: formErrors, isSubmitting },
     control,
@@ -41,52 +41,30 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
-        <Group grow>
-          <TextInput
-            label="이름"
-            placeholder="홍길동"
-            error={formErrors.user?.name?.message}
-            withAsterisk
-            {...register('user.name', { required: '이름을 입력해주세요.' })}
-          />
-          <TextInput
-            label="전화번호"
-            placeholder="- 제외, 숫자만 입력"
-            error={formErrors.user?.phone?.message}
-            withAsterisk
-            {...register('user.phone', { required: '전화번호를 입력해주세요.' })}
-          />
-          <TextInput
-            label="이메일"
-            placeholder="hong@skku.edu"
-            error={formErrors.user?.email?.message}
-            withAsterisk
-            {...register('user.email', { required: '이메일을 입력해주세요.' })}
-          />
-        </Group>
-        <Group grow>
-          <TextInput
-            label="소속대학"
-            placeholder="소프트웨어융합대학"
-            error={formErrors.user?.college?.message}
-            withAsterisk
-            {...register('user.college', { required: '소속대학을 입력해주세요.' })}
-          />
-          <TextInput
-            label="전공"
-            placeholder="소프트웨어학과"
-            error={formErrors.user?.major?.message}
-            withAsterisk
-            {...register('user.major', { required: '전공을 입력해주세요.' })}
-          />
-          <TextInput
-            label="직무"
-            placeholder="교수, 대학원생, ..."
-            error={formErrors.user?.role?.message}
-            withAsterisk
-            {...register('user.role', { required: '직무를 입력해주세요.' })}
-          />
-        </Group>
+        <Anchor
+          href="https://supercom.skku.edu/supercom/rule.do?mode=view&articleNo=42277&article.offset=0&articleLimit=10"
+          target="_blank"
+          color="blue"
+        >
+          신청서 양식 다운로드 &gt;
+        </Anchor>
+
+        <Controller
+          name="applicationFile"
+          control={control}
+          rules={{
+            required: '파일을 선택해주세요.',
+          }}
+          render={({ field }) => (
+            <FileInput
+              label="신청서 파일 업로드"
+              icon={<IconUpload size="16px" />}
+              placeholder="클릭하여 파일 업로드"
+              error={formErrors.applicationFile?.message}
+              {...field}
+            />
+          )}
+        />
 
         <Controller
           name="dates"
