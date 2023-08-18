@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  serv-rent-postgres:
+  serv-rent-postgres-dev:
     image: postgres
     container_name: serv-rent-postgres-dev
     ports:
@@ -12,7 +12,7 @@ services:
       - ../../.env.development
     restart: always
 
-  serv-rent-web:
+  serv-rent-web-dev:
     build:
       context: ../../
       dockerfile: docker/development/Dockerfile

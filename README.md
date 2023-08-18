@@ -6,12 +6,15 @@
 - pnpm
 - docker
 - `.env` files (@Kangdyu 에게 문의)
+  - `.env.local` for local development
+  - `.env.development` for deployment testing
+  - `.env.production` for production build
 
 ## Development
 
 ```bash
 pnpm i
-pnpm dotenv -e .env.[local|development|production] prisma generate
+pnpm dotenv -e .env.local prisma generate
 pnpm dev
 ```
 
