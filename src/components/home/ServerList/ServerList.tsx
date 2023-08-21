@@ -4,6 +4,7 @@ import { ServerReservationCalendar } from '@/components/common/ServerReservation
 import { useServers } from '@/hooks/useServers';
 import { useServerTime } from '@/hooks/useServerTime';
 import {
+  ActionIcon,
   Button,
   ColorSwatch,
   Grid,
@@ -17,8 +18,9 @@ import {
   Tooltip,
   useMantineTheme,
 } from '@mantine/core';
-import { IconHelpCircle } from '@tabler/icons-react';
+import { IconChevronLeft, IconChevronRight, IconHelpCircle } from '@tabler/icons-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 const COLUMNS = 14;
 const START_MONTH = 3;
@@ -43,11 +45,26 @@ export function ServerList() {
   const currentYear = time.getFullYear();
   const currentMonth = time.getMonth() + 1;
 
+  const [selectedYear, setSelectedYear] = useState(currentYear ?? new Date().getFullYear());
+
   return (
     <Stack>
       <Group position="apart" align="flex-end">
-        <Title order={3}>{currentYear}학년도</Title>
-
+        <Group>
+          <ActionIcon
+            disabled={selectedYear <= currentYear}
+            onClick={() => setSelectedYear((prev) => prev - 1)}
+            sx={{
+              '&[data-disabled]': { background: 'transparent', border: 'none' },
+            }}
+          >
+            <IconChevronLeft size="24px" />
+          </ActionIcon>
+          <Title order={3}>{selectedYear} 학년도</Title>
+          <ActionIcon onClick={() => setSelectedYear((prev) => prev + 1)}>
+            <IconChevronRight size="24px" />
+          </ActionIcon>
+        </Group>
         <Group spacing={24} sx={{ fontSize: '14px' }}>
           {Object.entries(statusColor).map(([key, { color, label }]) => (
             <Group key={key} spacing={12}>
@@ -65,12 +82,12 @@ export function ServerList() {
             <Stack align="center" spacing={0}>
               {month === 3 && (
                 <Text color="gray" fz="14px">
-                  {currentYear}
+                  {selectedYear}
                 </Text>
               )}
               {month === 1 && (
                 <Text color="gray" fz="14px">
-                  {currentYear + 1}
+                  {selectedYear + 1}
                 </Text>
               )}
               <Text fz="18px">{month}월</Text>
@@ -122,7 +139,7 @@ export function ServerList() {
               </Grid.Col>
 
               {monthsInSchoolYear.map((month) => {
-                const year = month < START_MONTH ? currentYear + 1 : currentYear;
+                const year = month < START_MONTH ? selectedYear + 1 : selectedYear;
                 const isPreviousMonth = month < currentMonth && year === currentYear;
                 const isAvailableMonth =
                   availableDates.includes(`${year}-${month}`) &&
