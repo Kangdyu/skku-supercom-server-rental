@@ -1,8 +1,7 @@
-import { Admin, Server, User } from '@prisma/client';
+import { Admin, Server } from '@prisma/client';
 
 type CommonDBFields = 'id' | 'createdAt' | 'updatedAt';
 
-export type UserDTO = Omit<User, CommonDBFields>;
 export type AdminDTO = Omit<Admin, CommonDBFields>;
 export type ServerDTO = Omit<Server, CommonDBFields>;
 
