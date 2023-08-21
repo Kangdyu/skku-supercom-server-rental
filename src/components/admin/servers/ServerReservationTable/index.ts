@@ -1,1 +1,1 @@
-export { ServerReservationtable } from '@/components/admin/servers/ServerReservationTable/ServerReservationTable';
+export { ServerReservationTable } from '@/components/admin/servers/ServerReservationTable/ServerReservationTable';

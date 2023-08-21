@@ -1,7 +1,7 @@
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { ServerInfoEditor } from '@/components/admin/servers/ServerInfoEditor';
 import { ServerReservationCalendars } from '@/components/admin/servers/ServerReservationCalendars';
-import { ServerReservationtable } from '@/components/admin/servers/ServerReservationTable';
+import { ServerReservationTable } from '@/components/admin/servers/ServerReservationTable';
 import { AsyncBoundary } from '@/components/common/AsyncBoundary';
 import { ErrorFallback } from '@/components/common/ErrorFallback/ErrorFallback';
 import { Skeleton, Stack, Tabs } from '@mantine/core';
@@ -39,7 +39,7 @@ export default function ServerDetailPage() {
             >
               <Stack>
                 <ServerReservationCalendars serverId={serverId} />
-                <ServerReservationtable serverId={serverId} />
+                <ServerReservationTable serverId={serverId} />
               </Stack>
             </AsyncBoundary>
           </Tabs.Panel>

@@ -3,11 +3,11 @@ import { useReservations } from '@/hooks/useReservations';
 import { Group, Pagination, Table, Text, Title } from '@mantine/core';
 import { useState } from 'react';
 
-interface ServerReservationtableProps {
+interface ServerReservationTableProps {
   serverId: number;
 }
 
-export function ServerReservationtable({ serverId }: ServerReservationtableProps) {
+export function ServerReservationTable({ serverId }: ServerReservationTableProps) {
   const [page, setPage] = useState(1);
   const { data } = useReservations({ pageSize: 10, pageNumber: page, serverId });
 
@@ -22,13 +22,8 @@ export function ServerReservationtable({ serverId }: ServerReservationtableProps
         <thead>
           <tr>
             <th>서버명</th>
-            <th>예약자</th>
-            <th>이메일</th>
-            <th>전화번호</th>
-            <th>소속대학</th>
-            <th>전공</th>
-            <th>직무</th>
             <th>예약 희망일</th>
+            <th>신청서</th>
             <th>예약 생성 일자</th>
             <th>설정</th>
           </tr>
