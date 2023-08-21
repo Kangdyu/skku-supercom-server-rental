@@ -122,9 +122,20 @@ export function ServerList() {
                         </Text>
                       </Tooltip>
 
-                      <Tooltip label={server.description}>
-                        <IconHelpCircle color="gray" size="16px" />
-                      </Tooltip>
+                      <Popover shadow="md">
+                        <Popover.Target>
+                          <Tooltip label="서버 스펙 상세">
+                            <ActionIcon>
+                              <IconHelpCircle color="gray" size="16px" />
+                            </ActionIcon>
+                          </Tooltip>
+                        </Popover.Target>
+                        <Popover.Dropdown>
+                          <Text size="sm" sx={{ whiteSpace: 'pre-wrap' }}>
+                            {server.description}
+                          </Text>
+                        </Popover.Dropdown>
+                      </Popover>
                     </Group>
 
                     <Button

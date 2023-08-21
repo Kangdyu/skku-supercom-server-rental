@@ -1,5 +1,15 @@
 import { ServerDTO, ServerResponse } from '@/types/api';
-import { Button, Checkbox, Group, Modal, ModalProps, Stack, Text, TextInput } from '@mantine/core';
+import {
+  Button,
+  Checkbox,
+  Group,
+  Modal,
+  ModalProps,
+  Stack,
+  Text,
+  Textarea,
+  TextInput,
+} from '@mantine/core';
 import { MonthPicker, MonthPickerInput } from '@mantine/dates';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -83,7 +93,14 @@ export function ServerAddModal({ onClose, ...props }: ModalProps) {
             error={formErrors.name?.message}
             {...register('name', { required: '서버명을 입력해주세요.' })}
           />
-          <TextInput label="설명" placeholder="GPU: V100, ..." {...register('description')} />
+          <Textarea
+            label="설명"
+            placeholder="GPU: V100, ..."
+            minRows={3}
+            maxRows={4}
+            autosize
+            {...register('description')}
+          />
           <Text size="sm">예약 가능 월</Text>
           <Group position="center">
             <MonthPicker
