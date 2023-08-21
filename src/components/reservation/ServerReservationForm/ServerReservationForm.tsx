@@ -7,7 +7,11 @@ import { IconUpload } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-type FormInputs = ReservationDTO;
+interface FormInputs {
+  serverId: number;
+  applicationFile: File;
+  dates: Date[];
+}
 
 interface ServerReservationFormProps {
   serverId: number;
@@ -24,7 +28,20 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
-      await axiosClient.post('/reservations', { ...data, serverId });
+      const formData = new FormData();
+      formData.append('applicationFile', data.applicationFile);
+
+      const {
+        data: { url },
+      } = await axiosClient.post<{ url: string }>('/upload-file', formData);
+
+      console.log(url);
+
+      await axiosClient.post('/reservations', {
+        serverId,
+        applicationFileUrl: url,
+        dates: data.dates,
+      });
 
       router.push('/');
 

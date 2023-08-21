@@ -15,6 +15,6 @@ export interface ServerAvailabilityDTO {
 
 export interface ReservationDTO {
   serverId: number;
-  applicationFile: File;
+  applicationFileUrl: string;
   dates: Date[];
 }

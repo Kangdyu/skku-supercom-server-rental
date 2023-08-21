@@ -13,16 +13,15 @@ enum UserRole {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  name         String
-  phone        String
-  email        String        @unique
-  college      String
-  major        String
-  role         String
-  reservations Reservation[]
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  phone     String
+  email     String   @unique
+  college   String
+  major     String
+  role      String
 }
 
 model Admin {
@@ -56,14 +55,13 @@ model ServerAvailability {
 }
 
 model Reservation {
-  id               Int               @id @default(autoincrement())
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  server           Server            @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  serverId         Int
-  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId           Int
-  reservationDates ReservationDate[]
+  id                 Int               @id @default(autoincrement())
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  server             Server            @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  serverId           Int
+  applicationFileUrl String
+  reservationDates   ReservationDate[]
 }
 
 model ReservationDate {

@@ -19,7 +19,6 @@ async function getReservations(req: NextApiRequest, res: NextApiResponse) {
     const totalCount = await prisma.reservation.count({
       where: {
         serverId: serverId ? Number(serverId) : undefined,
-        userId: userId ? Number(userId) : undefined,
       },
     });
     const reservations = await prisma.reservation.findMany({
@@ -27,12 +26,10 @@ async function getReservations(req: NextApiRequest, res: NextApiResponse) {
       take: pageSize,
       where: {
         serverId: serverId ? Number(serverId) : undefined,
-        userId: userId ? Number(userId) : undefined,
       },
       include: {
         reservationDates: true,
         server: true,
-        user: true,
       },
     });
 
@@ -53,20 +50,12 @@ async function getReservations(req: NextApiRequest, res: NextApiResponse) {
  */
 async function postReservation(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { serverId, user, dates }: ReservationDTO = req.body;
-
-    const userData = await prisma.user.upsert({
-      where: {
-        email: user.email,
-      },
-      create: user,
-      update: user,
-    });
+    const { serverId, applicationFileUrl, dates }: ReservationDTO = req.body;
 
     const reservation = await prisma.reservation.create({
       data: {
         serverId,
-        userId: userData.id,
+        applicationFileUrl,
       },
     });
 
