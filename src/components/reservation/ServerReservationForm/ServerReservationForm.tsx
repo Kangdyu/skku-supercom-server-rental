@@ -35,8 +35,6 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
         data: { url },
       } = await axiosClient.post<{ url: string }>('/upload-file', formData);
 
-      console.log(url);
-
       await axiosClient.post('/reservations', {
         serverId,
         applicationFileUrl: url,
