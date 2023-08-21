@@ -3,6 +3,7 @@ import formidable from 'formidable';
 import { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
+import { APPLICATION_FILE_UPLOAD_DIR } from '@/constants';
 
 async function postFile(req: NextApiRequest, res: NextApiResponse) {
   const form = formidable();
@@ -11,8 +12,10 @@ async function postFile(req: NextApiRequest, res: NextApiResponse) {
     const { files } = await formidableParse(form, req);
     const file = files.applicationFile[0];
 
-    const uploadDir = path.join(process.cwd(), 'public/uploads/applications');
-    const newName = `application-${new Date().toISOString()}`;
+    const uploadDir = path.join(process.cwd(), APPLICATION_FILE_UPLOAD_DIR);
+    const newName = `application-${new Date().toISOString()}.${file.originalFilename
+      ?.split('.')
+      .pop()}`;
     const newPath = path.join(uploadDir, newName);
 
     if (!fs.existsSync(uploadDir)) {
