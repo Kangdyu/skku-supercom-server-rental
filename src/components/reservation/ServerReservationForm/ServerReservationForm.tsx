@@ -25,7 +25,11 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
     handleSubmit,
     formState: { errors: formErrors, isSubmitting },
     control,
-  } = useForm<FormInputs>();
+  } = useForm<FormInputs>({
+    defaultValues: {
+      dates: [],
+    },
+  });
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
@@ -82,16 +86,21 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
           )}
         />
 
-        {/* <Controller
+        <Controller
           name="dates"
           control={control}
           rules={{
             required: '예약 날짜를 선택해주세요.',
           }}
-          render={({ field }) => <ReservationDatePicker serverId={serverId} {...field} />}
-        /> */}
-
-        <ReservationDatePicker serverId={serverId} />
+          render={({ field: { value, onChange } }) => (
+            <ReservationDatePicker
+              serverId={serverId}
+              value={value}
+              onChange={onChange}
+              error={formErrors.dates?.message}
+            />
+          )}
+        />
 
         <Button type="submit" loading={isSubmitting}>
           예약

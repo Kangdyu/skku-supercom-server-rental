@@ -13,21 +13,23 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { CalendarLevel, DatePicker, DatePickerInput, DatePickerProps } from '@mantine/dates';
-import { useMergedRef } from '@mantine/hooks';
 import dayjs from 'dayjs';
 import { ForwardedRef, forwardRef, useRef, useState } from 'react';
 
-interface ReservationDatePickerBaseProps extends DatePickerProps<'multiple'> {
+interface ReservationDatePickerBaseProps
+  extends Omit<DatePickerProps<'multiple'>, 'value' | 'onChange'> {
   serverId: number;
+  value: Date[];
+  onChange: (value: Date[]) => void;
+  error?: string;
 }
 
 function ReservationDatePickerBase(
-  { serverId, ...props }: ReservationDatePickerBaseProps,
+  { serverId, value, onChange, error, ...props }: ReservationDatePickerBaseProps,
   ref: ForwardedRef<HTMLButtonElement>,
 ) {
   const pickerRef = useRef<HTMLDivElement>(null);
 
-  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [displayingDate, setDisplayingDate] = useState<Date>(new Date());
   const [level, setLevel] = useState<CalendarLevel>('year');
 
@@ -56,7 +58,7 @@ function ReservationDatePickerBase(
           ),
       );
 
-    setSelectedDates((prev) => [...prev, ...activeDays]);
+    onChange([...value, ...activeDays]);
   };
 
   const onClickYearMonthButton = (year: number, month: number) => {
@@ -65,107 +67,102 @@ function ReservationDatePickerBase(
   };
 
   return (
-    <>
-      <DatePickerInput ref={ref} type="multiple" value={selectedDates} hidden />
-
-      <Group position="apart">
-        <Stack h="400px" sx={{ flex: 1 }}>
-          <Stack spacing="8px">
-            <Text size="sm" color="gray.9" fw={500}>
-              예약 날짜
+    <Group position="apart">
+      <Stack h="400px" sx={{ flex: 1 }}>
+        <Stack spacing="8px">
+          <Text size="sm" color="gray.9" fw={500}>
+            예약 날짜
+          </Text>
+          <Text size="sm" color="gray">
+            선택된 날짜가 있는 달은 초록색 배경으로 표시됩니다.
+          </Text>
+          {error && (
+            <Text size="sm" color="red" fw={500}>
+              {error}
             </Text>
-            <Text size="sm" color="gray">
-              선택된 날짜가 있는 달은 초록색 배경으로 표시됩니다.
-            </Text>
-          </Stack>
-
-          <ScrollArea h="100%">
-            <SimpleGrid cols={3}>
-              {availableDates.map((yearMonth) => {
-                const [year, month] = yearMonth.split('-').map(Number);
-
-                return (
-                  <UnstyledButton
-                    key={yearMonth}
-                    onClick={() => onClickYearMonthButton(year, month)}
-                  >
-                    <Paper
-                      withBorder
-                      p="12px"
-                      sx={(theme) => ({
-                        backgroundColor: selectedDates.some(
-                          (date) => date.getFullYear() === year && date.getMonth() + 1 === month,
-                        )
-                          ? theme.colors.green[1]
-                          : 'transparent',
-                        borderColor:
-                          formatDate(displayingDate, 'YYYY-MM') === yearMonth
-                            ? `${theme.colors.green[5]} !important`
-                            : `${theme.colors.gray[3]} !important`,
-                      })}
-                    >
-                      <Center>
-                        <Text fw={500}>{yearMonth}</Text>
-                      </Center>
-                    </Paper>
-                  </UnstyledButton>
-                );
-              })}
-            </SimpleGrid>
-          </ScrollArea>
-        </Stack>
-
-        <Stack>
-          <DatePicker
-            ref={pickerRef}
-            size="md"
-            type="multiple"
-            minDate={new Date()}
-            value={selectedDates}
-            onChange={(dates) => {
-              setSelectedDates(dates as Date[]);
-            }}
-            date={displayingDate}
-            onDateChange={(date) => {
-              setDisplayingDate(date);
-            }}
-            level={level}
-            onLevelChange={setLevel}
-            excludeDate={(date) => {
-              return takenDates.some((d) => dayjs(d).isSame(date, 'day'));
-            }}
-            getMonthControlProps={(date) => {
-              const yearMonth = formatDate(
-                `${date.getFullYear()}-${date.getMonth() + 1}`,
-                'YYYY-MM',
-              );
-
-              if (!availableDates.includes(yearMonth)) {
-                return { disabled: true };
-              }
-
-              return {};
-            }}
-            hideOutsideDates
-            styles={{
-              monthLevel: {
-                '.mantine-DatePicker-calendarHeaderControl': {
-                  display: 'none',
-                },
-              },
-            }}
-            {...props}
-          />
-          {level === 'month' && (
-            <Group grow>
-              <Button onClick={onClickAllSelectButton} variant="outline">
-                모두 선택
-              </Button>
-            </Group>
           )}
         </Stack>
-      </Group>
-    </>
+
+        <ScrollArea h="100%">
+          <SimpleGrid cols={3}>
+            {availableDates.map((yearMonth) => {
+              const [year, month] = yearMonth.split('-').map(Number);
+
+              return (
+                <UnstyledButton key={yearMonth} onClick={() => onClickYearMonthButton(year, month)}>
+                  <Paper
+                    withBorder
+                    p="12px"
+                    sx={(theme) => ({
+                      backgroundColor: value.some(
+                        (date) => date.getFullYear() === year && date.getMonth() + 1 === month,
+                      )
+                        ? theme.colors.green[1]
+                        : 'transparent',
+                      borderColor:
+                        formatDate(displayingDate, 'YYYY-MM') === yearMonth
+                          ? `${theme.colors.green[5]} !important`
+                          : `${theme.colors.gray[3]} !important`,
+                    })}
+                  >
+                    <Center>
+                      <Text fw={500}>{yearMonth}</Text>
+                    </Center>
+                  </Paper>
+                </UnstyledButton>
+              );
+            })}
+          </SimpleGrid>
+        </ScrollArea>
+      </Stack>
+
+      <Stack>
+        <DatePicker
+          ref={pickerRef}
+          size="md"
+          type="multiple"
+          minDate={new Date()}
+          value={value}
+          onChange={(dates) => {
+            onChange(dates as Date[]);
+          }}
+          date={displayingDate}
+          onDateChange={(date) => {
+            setDisplayingDate(date);
+          }}
+          level={level}
+          onLevelChange={setLevel}
+          excludeDate={(date) => {
+            return takenDates.some((d) => dayjs(d).isSame(date, 'day'));
+          }}
+          getMonthControlProps={(date) => {
+            const yearMonth = formatDate(`${date.getFullYear()}-${date.getMonth() + 1}`, 'YYYY-MM');
+
+            if (!availableDates.includes(yearMonth)) {
+              return { disabled: true };
+            }
+
+            return {};
+          }}
+          hideOutsideDates
+          styles={{
+            monthLevel: {
+              '.mantine-DatePicker-calendarHeaderControl': {
+                display: 'none',
+              },
+            },
+          }}
+          {...props}
+        />
+        {level === 'month' && (
+          <Group grow>
+            <Button onClick={onClickAllSelectButton} variant="outline">
+              모두 선택
+            </Button>
+          </Group>
+        )}
+      </Stack>
+    </Group>
   );
 }
 
