@@ -22,7 +22,6 @@ export function ServerReservationTable({ serverId }: ServerReservationTableProps
         <thead>
           <tr>
             <th>서버명</th>
-            <th>예약 희망일</th>
             <th>신청서</th>
             <th>예약 생성 일자</th>
             <th>설정</th>

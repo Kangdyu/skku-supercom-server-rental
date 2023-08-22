@@ -12,24 +12,10 @@ interface ServerReservationRowProps {
 export function ServerReservationRow({ reservation }: ServerReservationRowProps) {
   const [opened, { open, close }] = useDisclosure();
 
-  console.log(reservation);
-
   return (
     <>
       <tr key={reservation.id}>
         <td>{reservation.server.name}</td>
-        <td>
-          <Popover>
-            <Popover.Target>
-              <Button size="xs">날짜 보기</Button>
-            </Popover.Target>
-            <Popover.Dropdown>
-              {reservation.reservationDates.map((data) => (
-                <Text key={data.id}>{formatDate(data.date)}</Text>
-              ))}
-            </Popover.Dropdown>
-          </Popover>
-        </td>
         <td>
           <Button
             component="a"
