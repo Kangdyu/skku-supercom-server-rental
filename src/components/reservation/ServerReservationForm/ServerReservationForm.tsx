@@ -1,4 +1,5 @@
 import { ReservationCalendarInput } from '@/components/reservation/ServerReservationForm/ReservationCalendarInput';
+import { ReservationDatePicker } from '@/components/reservation/ServerReservationForm/ReservationDatePicker';
 import { axiosClient } from '@/lib/fetcher';
 import { showFailNotification, showSuccessNotification } from '@/lib/notification';
 import { ReservationDTO } from '@/types/api';
@@ -81,20 +82,16 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
           )}
         />
 
-        <Controller
+        {/* <Controller
           name="dates"
           control={control}
           rules={{
             required: '예약 날짜를 선택해주세요.',
           }}
-          render={({ field }) => (
-            <ReservationCalendarInput
-              serverId={serverId}
-              {...field}
-              error={formErrors.dates?.message}
-            />
-          )}
-        />
+          render={({ field }) => <ReservationDatePicker serverId={serverId} {...field} />}
+        /> */}
+
+        <ReservationDatePicker serverId={serverId} />
 
         <Button type="submit" loading={isSubmitting}>
           예약
