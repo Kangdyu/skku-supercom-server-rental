@@ -11,11 +11,6 @@ const ROUTES = [
     icon: <IconHome size="1rem" />,
   },
   {
-    label: '서버 관리',
-    href: '/admin/servers',
-    icon: <IconServer size="1rem" />,
-  },
-  {
     label: '비밀번호 변경',
     href: '/admin/account',
     icon: <IconKey size="1rem" />,

@@ -65,10 +65,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     /** NOTE: DB가 초기화되어 어드민 계정이 사라졌을 시,
      * 아래 주석처리 되어있는 코드를 주석 해제, 기존 코드를 주석 처리하여 POST 요청을 보내 계정 생성할 것
-     * 배포 코드에는 어드민 계정으로 로그인 했을 때에만 어드민 계정을 생성할 수 있도록 해둬야함
      */
     // await postRegister(req, res);
-    await withAdminAuth(postRegister)(req, res);
   } else if (req.method === 'PUT') {
     await withAdminAuth(putAdmin)(req, res);
   } else {
