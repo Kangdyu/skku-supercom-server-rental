@@ -15,15 +15,6 @@ export function ServerInfo({ serverId }: ServerInfoProps) {
       <Row label="설명">
         <Text sx={{ whiteSpace: 'pre-wrap' }}>{server.description}</Text>
       </Row>
-      <Row label="예약 가능 연월">
-        <Group spacing="4px">
-          {server.serverAvailability.map((availability) => (
-            <Badge key={availability.id} size="lg">
-              {availability.year}-{availability.month}
-            </Badge>
-          ))}
-        </Group>
-      </Row>
     </>
   );
 }
