@@ -31,7 +31,7 @@ function ReservationDatePickerBase(
   const pickerRef = useRef<HTMLDivElement>(null);
 
   const [displayingDate, setDisplayingDate] = useState<Date>(new Date());
-  const [level, setLevel] = useState<CalendarLevel>('year');
+  const [level, setLevel] = useState<CalendarLevel>('month');
 
   const { data: takenDates } = useReservationDates(serverId);
   const { data: server } = useServer(serverId);
