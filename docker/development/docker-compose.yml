@@ -11,6 +11,8 @@ services:
     env_file:
       - ../../.env.development
     restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   serv-rent-web-dev:
     build:
@@ -28,3 +30,6 @@ services:
 networks:
   serv-rent-network:
     driver: bridge
+
+volumes:
+  pgdata:
