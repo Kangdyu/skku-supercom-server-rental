@@ -13,7 +13,7 @@ export function ServerReservationCalendar({
   year,
   month,
 }: ServerReservationCalendarProps) {
-  const { data: reservationDates } = useReservationDates(serverId, { year, month });
+  const { data: reservationDates } = useReservationDates({ serverId, year, month });
 
   return (
     <Calendar

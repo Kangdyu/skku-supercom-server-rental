@@ -3,7 +3,8 @@ import { formatDate } from '@/lib/date';
 import { ReservationResponse } from '@/types/api';
 import { ActionIcon, Button, Group, Popover, Text, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconDownload, IconTrash } from '@tabler/icons-react';
+import { IconDownload, IconFileDots, IconTrash } from '@tabler/icons-react';
+import Link from 'next/link';
 
 interface ServerReservationRowProps {
   reservation: ReservationResponse;
@@ -30,9 +31,15 @@ export function ServerReservationRow({ reservation }: ServerReservationRowProps)
         <td>{formatDate(reservation.createdAt)}</td>
         <td>
           <Group>
+            <Tooltip label="예약 상세">
+              <ActionIcon component={Link} href={`/admin/reservations/${reservation.id}`}>
+                <IconFileDots />
+              </ActionIcon>
+            </Tooltip>
+
             <Tooltip label="예약 삭제">
               <ActionIcon onClick={open}>
-                <IconTrash />
+                <IconTrash color="red" />
               </ActionIcon>
             </Tooltip>
           </Group>

@@ -12,7 +12,7 @@ import {
   Text,
   UnstyledButton,
 } from '@mantine/core';
-import { CalendarLevel, DatePicker, DatePickerInput, DatePickerProps } from '@mantine/dates';
+import { CalendarLevel, DatePicker, DatePickerProps } from '@mantine/dates';
 import dayjs from 'dayjs';
 import { ForwardedRef, forwardRef, useRef, useState } from 'react';
 
@@ -33,7 +33,7 @@ function ReservationDatePickerBase(
   const [displayingDate, setDisplayingDate] = useState<Date>(new Date());
   const [level, setLevel] = useState<CalendarLevel>('month');
 
-  const { data: takenDates } = useReservationDates(serverId);
+  const { data: takenDates } = useReservationDates({ serverId });
   const { data: server } = useServer(serverId);
   const availableDates = server?.serverAvailability.map((a) =>
     formatDate(`${a.year}-${a.month}`, 'YYYY-MM'),

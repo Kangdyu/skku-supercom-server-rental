@@ -10,7 +10,7 @@ interface ServerReservationCalendarsProps {
 
 export function ServerReservationCalendars({ serverId }: ServerReservationCalendarsProps) {
   const { data: server } = useServer(serverId);
-  const { data: reservationDates } = useReservationDates(serverId);
+  const { data: reservationDates } = useReservationDates({ serverId });
 
   const availableMonths = server.serverAvailability.map((a) => `${a.year}-${a.month}`);
 

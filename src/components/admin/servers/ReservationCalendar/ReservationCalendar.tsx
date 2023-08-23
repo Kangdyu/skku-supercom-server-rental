@@ -18,13 +18,23 @@ import { useState } from 'react';
 
 interface ReservationCalendarProps extends CalendarProps {
   serverId: number;
+  reservationId?: number;
+  withTitle?: boolean;
 }
 
-export function ReservationCalendar({ serverId, ...props }: ReservationCalendarProps) {
+export function ReservationCalendar({
+  serverId,
+  reservationId,
+  withTitle = true,
+  ...props
+}: ReservationCalendarProps) {
   const [displayingDate, setDisplayingDate] = useState<Date>(new Date());
   const [level, setLevel] = useState<CalendarLevel>('month');
 
-  const { data: takenDates } = useReservationDates(serverId);
+  const { data: takenDates } = useReservationDates({
+    reservationId,
+    serverId: reservationId ? undefined : serverId,
+  });
   const { data: server } = useServer(serverId);
   const availableDates = server?.serverAvailability.map((a) =>
     formatDate(`${a.year}-${a.month}`, 'YYYY-MM'),
@@ -38,12 +48,14 @@ export function ReservationCalendar({ serverId, ...props }: ReservationCalendarP
   return (
     <Group>
       <Stack h="400px" maw="400px" w="100%">
-        <Stack spacing="8px">
-          <Title order={3}>달력 보기</Title>
-          <Text size="sm" color="gray">
-            예약된 날이 있는 달과 예약된 날은 초록색 배경으로 표시됩니다.
-          </Text>
-        </Stack>
+        {withTitle && (
+          <Stack spacing="8px">
+            <Title order={3}>달력 보기</Title>
+            <Text size="sm" color="gray">
+              예약된 날이 있는 달과 예약된 날은 초록색 배경으로 표시됩니다.
+            </Text>
+          </Stack>
+        )}
 
         <ScrollArea h="100%">
           <SimpleGrid cols={3}>

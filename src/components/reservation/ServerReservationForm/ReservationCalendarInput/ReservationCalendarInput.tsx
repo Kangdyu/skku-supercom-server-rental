@@ -13,7 +13,7 @@ function ReservationCalendarInputBase(
   { serverId, ...props }: ReservationCalendarProps,
   ref: ForwardedRef<HTMLButtonElement>,
 ) {
-  const { data: takenDates } = useReservationDates(serverId);
+  const { data: takenDates } = useReservationDates({ serverId });
   const { data: server } = useServer(serverId);
   const availableDates = server?.serverAvailability.map((a) => `${a.year}-${a.month}`);
 

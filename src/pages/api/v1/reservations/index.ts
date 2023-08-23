@@ -8,7 +8,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
  */
 async function getReservations(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { pageSize: pageSizeQuery, pageNumber: pageNumberQuery, serverId, userId } = req.query;
+    const { pageSize: pageSizeQuery, pageNumber: pageNumberQuery, serverId } = req.query;
     if (!pageSizeQuery || !pageNumberQuery) {
       return res.status(400).json({ message: 'pageSize and pageNumber are required' });
     }
