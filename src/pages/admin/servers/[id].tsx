@@ -1,4 +1,5 @@
 import { AdminLayout } from '@/components/admin/AdminLayout';
+import { ReservationCalendar } from '@/components/admin/servers/ReservationCalendar';
 import { ServerInfoEditor } from '@/components/admin/servers/ServerInfoEditor';
 import { ServerReservationCalendars } from '@/components/admin/servers/ServerReservationCalendars';
 import { ServerReservationTable } from '@/components/admin/servers/ServerReservationTable';
@@ -38,7 +39,7 @@ export default function ServerDetailPage() {
               loadingFallback={<Skeleton height="500px" visible />}
             >
               <Stack>
-                <ServerReservationCalendars serverId={serverId} />
+                <ReservationCalendar serverId={serverId} />
                 <ServerReservationTable serverId={serverId} />
               </Stack>
             </AsyncBoundary>

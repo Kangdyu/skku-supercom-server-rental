@@ -16,5 +16,5 @@ export function useReservationDates(serverId: number, options?: { year?: number;
     fetcher,
   );
 
-  return { data: data!, mutate };
+  return { data: data!.map((date) => new Date(date)), mutate };
 }
