@@ -4,7 +4,7 @@ import { useServer } from '@/hooks/useServer';
 import { getAuthHeaderObject } from '@/lib/auth';
 import { axiosClient } from '@/lib/fetcher';
 import { ServerResponse } from '@/types/api';
-import { Badge, Box, Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Badge, Box, Button, Group, Stack, Text, Textarea, TextInput } from '@mantine/core';
 import { MonthPickerInput } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -120,10 +120,12 @@ export function ServerInfoEditor({ serverId }: ServerInfoEditorProps) {
               />
             </Row>
             <Row label="설명">
-              <TextInput
+              <Textarea
                 w="300px"
                 disabled={!editing}
                 error={formErrors.description?.message}
+                minRows={3}
+                autosize
                 {...register('description')}
               />
             </Row>
