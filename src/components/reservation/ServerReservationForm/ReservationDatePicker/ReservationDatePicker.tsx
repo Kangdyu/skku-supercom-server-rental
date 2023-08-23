@@ -14,7 +14,7 @@ import {
 } from '@mantine/core';
 import { CalendarLevel, DatePicker, DatePickerProps } from '@mantine/dates';
 import dayjs from 'dayjs';
-import { ForwardedRef, forwardRef, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface ReservationDatePickerBaseProps
   extends Omit<DatePickerProps<'multiple'>, 'value' | 'onChange'> {
@@ -22,12 +22,19 @@ interface ReservationDatePickerBaseProps
   value: Date[];
   onChange: (value: Date[]) => void;
   error?: string;
+  withTitle?: boolean;
+  previouslyReservedDates?: Date[];
 }
 
-function ReservationDatePickerBase(
-  { serverId, value, onChange, error, ...props }: ReservationDatePickerBaseProps,
-  ref: ForwardedRef<HTMLButtonElement>,
-) {
+export function ReservationDatePicker({
+  serverId,
+  value,
+  onChange,
+  error,
+  withTitle = true,
+  previouslyReservedDates,
+  ...props
+}: ReservationDatePickerBaseProps) {
   const pickerRef = useRef<HTMLDivElement>(null);
 
   const [displayingDate, setDisplayingDate] = useState<Date>(new Date());
@@ -69,19 +76,21 @@ function ReservationDatePickerBase(
   return (
     <Group position="apart">
       <Stack h="400px" sx={{ flex: 1 }}>
-        <Stack spacing="8px">
-          <Text size="sm" color="gray.9" fw={500}>
-            예약 날짜
-          </Text>
-          <Text size="sm" color="gray">
-            선택된 날짜가 있는 달은 초록색 배경으로 표시됩니다.
-          </Text>
-          {error && (
-            <Text size="sm" color="red" fw={500}>
-              {error}
+        {withTitle && (
+          <Stack spacing="8px">
+            <Text size="sm" color="gray.9" fw={500}>
+              예약 날짜
             </Text>
-          )}
-        </Stack>
+            <Text size="sm" color="gray">
+              선택된 날짜가 있는 달은 초록색 배경으로 표시됩니다.
+            </Text>
+            {error && (
+              <Text size="sm" color="red" fw={500}>
+                {error}
+              </Text>
+            )}
+          </Stack>
+        )}
 
         <ScrollArea h="100%">
           <SimpleGrid cols={3}>
@@ -133,7 +142,10 @@ function ReservationDatePickerBase(
           level={level}
           onLevelChange={setLevel}
           excludeDate={(date) => {
-            return takenDates.some((d) => dayjs(d).isSame(date, 'day'));
+            return (
+              !previouslyReservedDates?.some((d) => dayjs(d).isSame(date, 'day')) &&
+              takenDates.some((d) => dayjs(d).isSame(date, 'day'))
+            );
           }}
           getMonthControlProps={(date) => {
             const yearMonth = formatDate(`${date.getFullYear()}-${date.getMonth() + 1}`, 'YYYY-MM');
@@ -165,5 +177,3 @@ function ReservationDatePickerBase(
     </Group>
   );
 }
-
-export const ReservationDatePicker = forwardRef(ReservationDatePickerBase);

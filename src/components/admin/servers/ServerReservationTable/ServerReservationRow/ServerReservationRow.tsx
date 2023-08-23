@@ -1,9 +1,7 @@
-import { ReservationDeleteModal } from '@/components/admin/servers/ReservationDeleteModal/ReservationDeleteModal';
 import { formatDate } from '@/lib/date';
 import { ReservationResponse } from '@/types/api';
-import { ActionIcon, Button, Group, Popover, Text, Tooltip } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IconDownload, IconFileDots, IconTrash } from '@tabler/icons-react';
+import { ActionIcon, Button, Group, Tooltip } from '@mantine/core';
+import { IconDownload, IconFileDots } from '@tabler/icons-react';
 import Link from 'next/link';
 
 interface ServerReservationRowProps {
@@ -11,8 +9,6 @@ interface ServerReservationRowProps {
 }
 
 export function ServerReservationRow({ reservation }: ServerReservationRowProps) {
-  const [opened, { open, close }] = useDisclosure();
-
   return (
     <>
       <tr key={reservation.id}>
@@ -36,17 +32,9 @@ export function ServerReservationRow({ reservation }: ServerReservationRowProps)
                 <IconFileDots />
               </ActionIcon>
             </Tooltip>
-
-            <Tooltip label="예약 삭제">
-              <ActionIcon onClick={open}>
-                <IconTrash color="red" />
-              </ActionIcon>
-            </Tooltip>
           </Group>
         </td>
       </tr>
-
-      <ReservationDeleteModal reservationId={reservation.id} opened={opened} onClose={close} />
     </>
   );
 }

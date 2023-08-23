@@ -2,6 +2,7 @@ import { ReservationCalendarInput } from '@/components/reservation/ServerReserva
 import { ReservationDatePicker } from '@/components/reservation/ServerReservationForm/ReservationDatePicker';
 import { axiosClient } from '@/lib/fetcher';
 import { showFailNotification, showSuccessNotification } from '@/lib/notification';
+import { uploadFile } from '@/lib/uploadFile';
 import { ReservationDTO } from '@/types/api';
 import { Anchor, Button, FileInput, Stack } from '@mantine/core';
 import { IconUpload } from '@tabler/icons-react';
@@ -33,12 +34,7 @@ export function ServerReservationForm({ serverId }: ServerReservationFormProps) 
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
-      const formData = new FormData();
-      formData.append('applicationFile', data.applicationFile);
-
-      const {
-        data: { url },
-      } = await axiosClient.post<{ url: string }>('/upload-file', formData);
+      const url = await uploadFile(data.applicationFile);
 
       await axiosClient.post('/reservations', {
         serverId,
