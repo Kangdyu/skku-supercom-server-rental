@@ -47,7 +47,7 @@ export function ReservationCalendar({
 
   return (
     <Group>
-      <Stack h="400px" maw="400px" w="100%">
+      <Stack h="400px" maw="400px" sx={{ flex: 1 }}>
         {withTitle && (
           <Stack spacing="8px">
             <Title order={3}>달력 보기</Title>

@@ -74,8 +74,8 @@ export function ReservationDatePicker({
   };
 
   return (
-    <Group position="apart">
-      <Stack h="400px" sx={{ flex: 1 }}>
+    <Group>
+      <Stack h="400px" maw="400px" sx={{ flex: 1 }}>
         {withTitle && (
           <Stack spacing="8px">
             <Text size="sm" color="gray.9" fw={500}>
