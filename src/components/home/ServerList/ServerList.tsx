@@ -6,6 +6,7 @@ import { useServerTime } from '@/hooks/useServerTime';
 import {
   ActionIcon,
   Button,
+  Center,
   ColorSwatch,
   Grid,
   Group,
@@ -66,6 +67,7 @@ export function ServerList() {
           </ActionIcon>
         </Group>
         <Group spacing={24} sx={{ fontSize: '14px' }}>
+          <Text color="gray">예약 가능한 칸을 누르면 현재 예약 현황 달력을 볼 수 있습니다.</Text>
           {Object.entries(statusColor).map(([key, { color, label }]) => (
             <Group key={key} spacing={12}>
               <ColorSwatch color={color} size="20px" />
@@ -173,8 +175,19 @@ export function ServerList() {
                             background: isAvailableMonth
                               ? theme.colors.green[3]
                               : theme.colors.gray[0],
+                            ':hover': {
+                              background: theme.colors.green[5],
+                              '> div': {
+                                display: 'block',
+                              },
+                            },
+                            transition: 'background 0.1s ease-in-out',
                           })}
-                        />
+                        >
+                          <Center sx={{ display: 'none' }}>
+                            <Text color="white">예약 확인</Text>
+                          </Center>
+                        </Paper>
                       </Popover.Target>
                       <Popover.Dropdown>
                         <AsyncBoundary errorFallback={ErrorFallback} loadingFallback={<Loader />}>
