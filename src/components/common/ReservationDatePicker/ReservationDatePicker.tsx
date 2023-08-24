@@ -68,6 +68,16 @@ export function ReservationDatePicker({
     onChange([...value, ...activeDays]);
   };
 
+  const onClickAllDeselectButton = () => {
+    onChange(
+      value.filter(
+        (date) =>
+          date.getFullYear() !== displayingDate.getFullYear() ||
+          date.getMonth() !== displayingDate.getMonth(),
+      ),
+    );
+  };
+
   const onClickYearMonthButton = (year: number, month: number) => {
     setDisplayingDate(new Date(year, month - 1, 1));
     setLevel('month');
@@ -170,6 +180,9 @@ export function ReservationDatePicker({
           <Group grow>
             <Button onClick={onClickAllSelectButton} variant="outline">
               모두 선택
+            </Button>
+            <Button onClick={onClickAllDeselectButton} variant="outline" color="red">
+              모두 해제
             </Button>
           </Group>
         )}

@@ -1,5 +1,5 @@
 import { ReservationCalendarInput } from '@/components/reservation/ServerReservationForm/ReservationCalendarInput';
-import { ReservationDatePicker } from '@/components/reservation/ServerReservationForm/ReservationDatePicker';
+import { ReservationDatePicker } from '@/components/common/ReservationDatePicker';
 import { axiosClient } from '@/lib/fetcher';
 import { showFailNotification, showSuccessNotification } from '@/lib/notification';
 import { uploadFile } from '@/lib/uploadFile';

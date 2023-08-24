@@ -1,7 +1,7 @@
 import { ReservationDeleteModal } from '@/components/admin/reservations/ReservationInfoEditor/ReservationDeleteModal';
 import { ReservationCalendar } from '@/components/admin/servers/ReservationCalendar';
 import { Row } from '@/components/common/Row';
-import { ReservationDatePicker } from '@/components/reservation/ServerReservationForm/ReservationDatePicker';
+import { ReservationDatePicker } from '@/components/common/ReservationDatePicker';
 import { useReservation } from '@/hooks/useReservation';
 import { useReservationDates } from '@/hooks/useReservationDates';
 import { getAuthHeaderObject } from '@/lib/auth';
