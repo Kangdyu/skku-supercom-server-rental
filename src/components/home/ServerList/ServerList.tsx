@@ -169,6 +169,7 @@ export function ServerList() {
                           withBorder
                           w="100%"
                           h="100%"
+                          pos="relative"
                           sx={(theme) => ({
                             pointerEvents: !isAvailableMonth ? 'none' : 'auto',
                             cursor: 'pointer',
@@ -178,13 +179,20 @@ export function ServerList() {
                             ':hover': {
                               background: theme.colors.green[5],
                               '> div': {
-                                display: 'block',
+                                display: 'flex',
                               },
                             },
                             transition: 'background 0.1s ease-in-out',
                           })}
                         >
-                          <Center sx={{ display: 'none' }}>
+                          <Center
+                            pos="absolute"
+                            top={0}
+                            left={0}
+                            w="100%"
+                            h="100%"
+                            sx={{ display: 'none' }}
+                          >
                             <Text color="white">예약 확인</Text>
                           </Center>
                         </Paper>
