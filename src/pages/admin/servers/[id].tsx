@@ -1,7 +1,6 @@
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { ReservationCalendar } from '@/components/admin/servers/ReservationCalendar';
 import { ServerInfoEditor } from '@/components/admin/servers/ServerInfoEditor';
-import { ServerReservationCalendars } from '@/components/admin/servers/ServerReservationCalendars';
 import { ServerReservationTable } from '@/components/admin/servers/ServerReservationTable';
 import { AsyncBoundary } from '@/components/common/AsyncBoundary';
 import { ErrorFallback } from '@/components/common/ErrorFallback/ErrorFallback';

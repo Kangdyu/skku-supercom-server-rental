@@ -1,9 +1,7 @@
-import { ReservationCalendarInput } from '@/components/reservation/ServerReservationForm/ReservationCalendarInput';
 import { ReservationDatePicker } from '@/components/common/ReservationDatePicker';
 import { axiosClient } from '@/lib/fetcher';
 import { showFailNotification, showSuccessNotification } from '@/lib/notification';
 import { uploadFile } from '@/lib/uploadFile';
-import { ReservationDTO } from '@/types/api';
 import { Anchor, Button, FileInput, Stack } from '@mantine/core';
 import { IconUpload } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
