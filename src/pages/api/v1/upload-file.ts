@@ -22,14 +22,16 @@ async function postFile(req: NextApiRequest, res: NextApiResponse) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    fs.rename(file.filepath, newPath, (err) => {
+    fs.copyFile(file.filepath, newPath, (err) => {
       if (err) {
         console.error('Error moving file:', err);
         return res.status(500).json({ error: 'File upload failed.' });
       }
 
-      const fileUrl = `/uploads/applications/${newName}`;
+      const fileUrl = `/${APPLICATION_FILE_UPLOAD_DIR}/${newName}`;
       res.status(200).json({ url: fileUrl });
+
+      fs.unlinkSync(file.filepath);
     });
   } catch (e) {
     console.error(e);
