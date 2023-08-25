@@ -8,8 +8,8 @@
   - `postgresql`, `nginx` images
 - `.env` files
   - `.env.local` for local development
-  - `.env.development` for deployment testing
-  - `.env.production` for production build
+  - `.env.development` for test server deployment
+  - `.env.production` for production server deployment
 
 ## Development
 
